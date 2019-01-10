@@ -194,12 +194,12 @@ def gini_index(x):
 
 #versão antiga abaixo para caso de ser necessário revisitar
 
-def inpureza1(x):
-    print(x)
-    try:
-        return 4*reduce(lambda a,b: P(a[1],x) * P(b[1],x), x)
-    except:
-        return 0
+#def inpureza1(x):
+#    print(x)
+#    try:
+#        return 4*reduce(lambda a,b: P(a[1],x) * P(b[1],x), x)
+#    except:
+#        return 0
 
 
 
@@ -228,11 +228,11 @@ def missclassification(x):
 
 #versão antiga abaixo caso seja necessário revisitar
 
-def inpureza2(x):
-    try:
-        return (len(x)) * min(list(map(lambda l: P(l,x),x)))
-    except:
-        return 0
+#def inpureza2(x):
+#    try:
+#        return (len(x)) * min(list(map(lambda l: P(l,x),x)))
+#    except:
+#        return 0
 
 
 
@@ -266,19 +266,19 @@ def entropia(x):
 
 # (|)(x1,...,xn) = (1 - MAXi (Pi)) * (L/(L-1))
 
-def inpureza4(x):
-    try:
-        return (1 - max(list(map(lambda l: P(l,x),x))) ) * (L/(L-1))
-    except:
-        return 0
+#def inpureza4(x):
+#    try:
+#        return (1 - max(list(map(lambda l: P(l,x),x))) ) * (L/(L-1))
+#    except:
+#        return 0
 
 # (|)(x1,...,xn) = - SUMi(Pi*log2(Pi)) * (1/log2(n))
 
-def inpureza5(x):
-    try:
-        return -reduce(lambda a,b: P(a[1],x)*log(P(a[1],x),2) + P(b[1],x)*log(P(b[1],x),2),x) * (1/log(len(x),2))
-    except:
-        return 0
+#def inpureza5(x):
+#    try:
+#        return -reduce(lambda a,b: P(a[1],x)*log(P(a[1],x),2) + P(b[1],x)*log(P(b[1],x),2),x) * (1/log(len(x),2))
+#    except:
+#        return 0
 #--------------------------------
 
 # Calcula as impurezas de uma lista de contagens
