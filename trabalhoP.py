@@ -159,9 +159,19 @@ def contagemDeClasseMultiplasMatrizes(matrix):
 # ----- funcoes de impureza -----
 
 # calcular a probabilidade 
+
+#Notas Ezequiel:
+#Dado uma classe pos com total de ocorrências N,
+# o cálculo da probabilidade de 
+# um certo evento com val ocorrências em pos
+#é dado por val/N
+#i.e., P(evento,pos) = val/N, onde val = nº ocorrências de evento em pos
 def P(val,pos):
     N = reduce(lambda a,b: a[1] + b[1],pos)
     return(val/N)
+
+
+
 
 # (|)(Ps,Pn) = 4PsPn
 # (|)(x1,...,xn) = 4 PIi (Pxi)
