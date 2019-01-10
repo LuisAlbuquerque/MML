@@ -203,6 +203,10 @@ def inpureza1(x):
 
 
 
+
+
+
+
 # (|)(Ps,Pn) = min(Ps,Pn) * 2
 # (|)(x1,...,xn) = min(Px1,...Pxn) * n
 
@@ -241,14 +245,35 @@ def inpureza2(x):
     except:
         return 0
 
+
+
+
+
+
+
+
+
 # (|)(Ps,Pn) = -Ps*log2(Ps) -Pn*log2(Pn)
 # (|)(x1,...,xn) = -Px1*log2(Px1) ... -Pxn*log2(Pxn)
 
-def inpureza3(x):
+
+#Notas Ezequiel:
+#Esta é a função de entropia
+#dado N classes, calculamos 
+#Entropia(N) = -(P1*log_2(P1)) - (P2*log_2(P2)) - ..... - (PN*log_2(PN))
+#            = - ( (P1*log_2(P1)) + (P2*log_2(P2)) + ..... + (PN*log_2(PN)) )
+#sendo que é normalizada desta vez multiplicando por 1/( log_2(N) )
+
+def entropia(x):
+    N = len(x)
     try:
-        return reduce(lambda a,b: -P(a,x)*log(2,P(a,x)) -P(b,x)*log(2,P(b,x)),x)
+        return (-reduce(lambda a,b: P(a[1],x)*log(P(a[1],x),2) + P(b[1],x)*log(P(b[1],x),2),x)) * ( 1 / (log(N,2)) )
     except:
         return 0
+
+
+
+
 
 # (|)(x1,...,xn) = (1 - MAXi (Pi)) * (L/(L-1))
 
@@ -310,7 +335,9 @@ arvore[1] = [(0,a[0])]
 #print(c)
 
 #print(inpureza_all(c,gini_index))
-print(inpureza_all(c,missclassification))
+#print(inpureza_all(c,missclassification))
+print(inpureza_all(c,entropia))
+
 
 #print(contagemDeClasse(data))
 #print(contagemDeClasseDebug(data))
