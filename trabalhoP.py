@@ -281,28 +281,58 @@ def entropia(x):
 #        return 0
 #--------------------------------
 
+
+
+
 # Calcula as impurezas de uma lista de contagens
+
+#Notas Ezequiel:
+#dada uma lista de pares faz map de cada elemento
+# da função fun
+
 def inpureza_all(lista, fun):
     return list(map(lambda x: fun(x),lista))
 
+
+
 # Separa as linhas que têm  
 # valor val na coluna ind
-def separa(lista,ind,val):
+
+#Notas Ezequiel:
+#retorna todas as linhas de uma matriz cujo valor na coluna ind é val
+
+def separa(matrix,ind,val):
     res = []
-    for x in lista[HEADER:]:
+    for x in matrix[HEADER:]:
         if(x[ind] == val):
             res.append(x)
     return res
+
+
+
+
 
 # Cria uma lista de listas
 # onde cada lista tem todas as listas 
 # de um determinado atributo
 # cada lista corresponde a um atributo difrente
-def separa_all(lista,ind):
+
+#Notas Ezequiel:
+#aplica separa a uma lista de matrizes
+
+def separa_all(listaMatrizes,ind):
     res = []
-    for x in getColumnUniqueFromMatrix(ind,lista):
-        res.append(separa(lista,ind,x))
+    for x in getColumnUniqueFromMatrix(ind,listaMatrizes):
+        res.append(separa(listaMatrizes,ind,x))
     return res
+
+
+
+
+
+
+
+
 
 #print(separa_all(data,11)[0])
 #print(contagem_all(separa_all(data,5)))
