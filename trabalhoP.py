@@ -113,11 +113,7 @@ def getColumnUniqueFromMatrixDebug(index,matrix):
 #i.e., retorna uma contagem de que valores únicos da classe a prever temos no csv
 
 
-
-
 #Nota adicional: que raio é que tens contra chamar à "lista" o que é: uma matriz?
-
-
 
 
 def contagemDeClasse(matrix):
@@ -163,8 +159,9 @@ def contagemDeClasseMultiplasMatrizes(matrix):
 # ----- funcoes de impureza -----
 
 # calcular a probabilidade 
-def P(val,poss):
-    return(val/len(poss))
+def P(val,pos):
+    N = reduce(lambda a,b: a[1] + b[1],pos)
+    return(val/N)
 
 # (|)(Ps,Pn) = 4PsPn
 # (|)(x1,...,xn) = 4 PIi (Pxi)
