@@ -145,14 +145,16 @@ def contagemDeClasseDebug(matrix):
     return a
 
 
+
+
 # Aplica a função constagem
 # a uma lista de uma listas de listas
 
 #Notas Ezequiel:
 #usa contagemDeClasse numa lista com várias matrizes
+#retorna dita lista após ter aplicado a função a cada elemento dela
 def contagemDeClasseMultiplasMatrizes(matrix):
     return list(map(lambda x: contagemDeClasse(x),matrix))
-
 
 
 
@@ -244,12 +246,17 @@ count = 1
 arvore[0] = [(0,data)]
 
 a = separa_all(data,separator)
-c = contagem_all(a)
+c = contagemDeClasseMultiplasMatrizes(a)
 arvore[1] = [(0,a[0])]
-#print(c)
+
+
+print(c)
 #print(inpureza_all(c,inpureza1))
-print(contagemDeClasse(data))
-print(contagemDeClasseDebug(data))
+
+#print(contagemDeClasse(data))
+#print(contagemDeClasseDebug(data))
+
+
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
 
