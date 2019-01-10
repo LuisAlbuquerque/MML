@@ -99,6 +99,10 @@ def getColumnUniqueFromMatrixDebug(index,matrix):
 
 # Regressão:
 #   [(v1: nº de ocurências de v1),...,(vn: nº de ocurências de vn)]
+
+#Notas Ezequiel:
+# retorna uma lista de pares (atributo,ocorrencias de atributo)
+
 def contagem(lista):
     keys = getColumnUniqueFromMatrix(RESULTADO,lista)
     #--init dic--
@@ -204,9 +208,9 @@ c = contagem_all(a)
 arvore[1] = [(0,a[0])]
 #print(c)
 #print(inpureza_all(c,inpureza1))
-#print(contagem(data))
-print(getColumnUniqueFromMatrix(2,data))
-print(getColumnUniqueFromMatrixDebug(2,data))
+print(contagem(data))
+#print(getColumnUniqueFromMatrix(2,data))
+#print(getColumnUniqueFromMatrixDebug(2,data))
 
 
 
