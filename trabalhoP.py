@@ -287,7 +287,7 @@ def inpureza4(x):
 
 def inpureza5(x):
     try:
-        return -reduce(lambda a,b: P(a,x)*log(2,P(a,x)) + P(b,x)*log(2,P(b,x)),x) * (1/log(2,len(x)))
+        return -reduce(lambda a,b: P(a[1],x)*log(P(a[1],x),2) + P(b[1],x)*log(P(b[1],x),2),x) * (1/log(len(x),2))
     except:
         return 0
 #--------------------------------
