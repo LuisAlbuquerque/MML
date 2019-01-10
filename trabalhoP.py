@@ -167,7 +167,7 @@ def contagemDeClasseMultiplasMatrizes(matrix):
 #é dado por val/N
 #i.e., P(evento,pos) = val/N, onde val = nº ocorrências de evento em pos
 def P(val,pos):
-    N = reduce(lambda a,b: a[1] + b[1],pos)
+    N = sum(map(lambda x: x[1],pos))
     return(val/N)
 
 
@@ -176,7 +176,26 @@ def P(val,pos):
 # (|)(Ps,Pn) = 4PsPn
 # (|)(x1,...,xn) = 4 PIi (Pxi)
 
+#Notas Ezequiel:
+#Esta é a implementação do Gini_index generalizado a N classes
+#dado j entre 1 e N,
+#calculamos a impureza de Gini_index através da formula
+#Gini_index(N) =  1 - [ (P1*P1) + (P2*P2) + ... + (PJ*PJ) + ... + (PN*PN) ]
+# de notar que o valor que obtemos acima não está normalizado, 
+# i.e., para o máximo de indecisão não dá valor 1
+#para se normalizar multiplica-se por N/(N-1)
+
+def gini_index(x):
+    N = len(x)
+    try:
+        return (1-reduce(lambda a,b: P(a[1],x) * P(b[1],x), x) ) / (N/(N-1))
+    except:
+        return 0
+
+
+
 def inpureza1(x):
+    print(x)
     try:
         return 4*reduce(lambda a,b: P(a[1],x) * P(b[1],x), x)
     except:
@@ -257,8 +276,8 @@ c = contagemDeClasseMultiplasMatrizes(a)
 arvore[1] = [(0,a[0])]
 
 
-print(c)
-#print(inpureza_all(c,inpureza1))
+#print(c)
+print(inpureza_all(c,gini_index))
 
 #print(contagemDeClasse(data))
 #print(contagemDeClasseDebug(data))
