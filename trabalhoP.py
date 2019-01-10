@@ -23,21 +23,39 @@ HEADER = 1 # se tem uma linha com identificadores de coluna
 
 # transformar arvore de regressao numa de classificacao
 
+# funcao que define o criterio para classificar um dado valor
+# como sim ou como nao
 def cond(string,val):
     if(int(string)>val): return True
     return False
 
+# funcao que transforma um dataset de regressao
+# num de classificacao, usando a funcao cond como criterio
 def reg_to_class():
     for x in range(len(data)-HEADER):
         data[x+HEADER][RESULTADO] = cond(data[x+HEADER][RESULTADO],VAL)
 
+# se a flag TIPO for 1
+# transforma o dataset num de regressao
 if(TIPO):        
     reg_to_class()
 
 # ---------------
+
+# Calcula todas as possiblidades de valores
+# para uma determinada coluna
 def possiblidades(ind,lista):
     return list(set(map(lambda x: x[ind],lista[HEADER:])))
 
+# Para uma determinada lista
+# calcula o numero de linhas é que têm 
+# como resultado um determinado atributo
+# calculando para todos os atributos possiveis
+# classificacao:
+#   [(sim: nº de ocurências de sim),(não: nº de ocurências de não)]
+
+# Regressão:
+#   [(v1: nº de ocurências de v1),...,(vn: nº de ocurências de vn)]
 def contagem(lista):
     keys = possiblidades(RESULTADO,lista)
     #--init dic--
@@ -48,7 +66,8 @@ def contagem(lista):
         dic[x[RESULTADO]] += 1
     return list(map(lambda x: (x,dic[x]),keys))
 
-
+# Aplica a função constagem
+# a uma lista de uma listas de listas
 def contagem_all(lista):
     return list(map(lambda x: contagem(x),lista))
 
@@ -102,9 +121,12 @@ def inpureza5(x):
         return 0
 #--------------------------------
 
+# Calcula as impurezas de uma lista de contagens
 def inpureza_all(lista, fun):
     return list(map(lambda x: fun(x),lista))
 
+# Separa as linhas que têm  
+# valor val na coluna ind
 def separa(lista,ind,val):
     res = []
     for x in lista[HEADER:]:
@@ -112,6 +134,10 @@ def separa(lista,ind,val):
             res.append(x)
     return res
 
+# Cria uma lista de listas
+# onde cada lista tem todas as listas 
+# de um determinado atributo
+# cada lista corresponde a um atributo difrente
 def separa_all(lista,ind):
     res = []
     for x in possiblidades(ind,lista):
@@ -132,7 +158,7 @@ arvore[0] = [(0,data)]
 
 a = separa_all(data,separator)
 c = contagem_all(a)
-arvore[1] = [(0,a[0]),
+arvore[1] = [(0,a[0])]
 #print(c)
 print(inpureza_all(c,inpureza1))
 #print(contagem(data))
