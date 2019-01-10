@@ -192,7 +192,7 @@ def gini_index(x):
     except:
         return 0
 
-
+#versão antiga abaixo para caso de ser necessário revisitar
 
 def inpureza1(x):
     print(x)
@@ -201,8 +201,39 @@ def inpureza1(x):
     except:
         return 0
 
+
+
 # (|)(Ps,Pn) = min(Ps,Pn) * 2
 # (|)(x1,...,xn) = min(Px1,...Pxn) * n
+
+#notas do Ezequiel:
+#missclassification como dito acima está errada
+#de facto, para N classes,
+# Missclassification(N) = 1 - maxi_1_N(Pi),
+#onde maxi_1_N é o cálculo da probabilidade máxima da classe
+# 1 até N
+#Também se generaliza multiplicando por N/(N-1)
+
+def missclassification(x):
+    N = len(x)
+    max = calcMaxProb(x)
+    try:
+        return (1 - max ) / (N/(N-1))
+    except:
+        return 0
+
+
+#função auxiliar
+#retorna o máximo da probabilidade encontrada em x e retorna-o
+def calcMaxProb(x): 
+    max = 0
+    for classe in x:
+        prob = P(classe[1],x)
+        if(max < prob ): max = prob
+    return max
+
+
+#versão antiga abaixo caso seja necessário revisitar
 
 def inpureza2(x):
     try:
@@ -277,7 +308,9 @@ arvore[1] = [(0,a[0])]
 
 
 #print(c)
-print(inpureza_all(c,gini_index))
+
+#print(inpureza_all(c,gini_index))
+print(inpureza_all(c,missclassification))
 
 #print(contagemDeClasse(data))
 #print(contagemDeClasseDebug(data))
