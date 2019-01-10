@@ -283,11 +283,11 @@ def inpureza4(x):
     except:
         return 0
 
-# (|)(x1,...,xn) = - SUMi(Pi) * (1/log2(n))
+# (|)(x1,...,xn) = - SUMi(Pi*log2(Pi)) * (1/log2(n))
 
 def inpureza5(x):
     try:
-        return -reduce(lambda a,b: P(a,x) + P(b,x),x) * (1/log(2,len(x)))
+        return -reduce(lambda a,b: P(a,x)*log(2,P(a,x)) + P(b,x)*log(2,P(b,x)),x) * (1/log(2,len(x)))
     except:
         return 0
 #--------------------------------
@@ -345,6 +345,7 @@ print(inpureza_all(c,entropia))
 
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
+
 
 
 
