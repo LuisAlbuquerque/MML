@@ -13,8 +13,14 @@ with open("winequality-red.csv") as fd:
 
 # -- defines ---
 
+#coluna com a classe que queremos prever na árvore de decisão
 RESULTADO = 11
+
+#valor a considerar como separador entre sim e não
 VAL = 6
+
+#neste momento, nada
+#mudar estes comentários quando mudar, ou eliminar se for inutil
 SEP = []
 
 #---------------
@@ -101,17 +107,37 @@ def getColumnUniqueFromMatrixDebug(index,matrix):
 #   [(v1: nº de ocurências de v1),...,(vn: nº de ocurências de vn)]
 
 #Notas Ezequiel:
-# retorna uma lista de pares (atributo,ocorrencias de atributo)
+#retorna uma lista de pares (atributo,ocorrencias de atributo)
+#como está definida, retorna uma lista com os pares (atributo,nº occorrências do atributo)
+#da coluna com o atributo a prever
+#i.e., retorna uma contagem de que valores únicos da classe a prever temos no csv
 
-def contagem(lista):
-    keys = getColumnUniqueFromMatrix(RESULTADO,lista)
+#Nota adicional: que raio é que tens contra chamar a lista o que é: uma matriz?
+
+def contagem(matrix):
+    keys = getColumnUniqueFromMatrix(RESULTADO,matrix)
     #--init dic--
     dic = {}
     for k in keys:
         dic[k] = 0
-    for x in lista[HEADER:]:
+    for x in matrix[HEADER:]:
         dic[x[RESULTADO]] += 1
     return list(map(lambda x: (x,dic[x]),keys))
+
+
+#Mesmo que a anterior, 
+#mas retorna com o valor da coluna RESULTADO adicionada
+#para clareza adicional
+
+#Notas Ezequiel:
+#Como o nome sugere, é para uso de debug
+
+def contagemDebug(matrix):
+    a = {}
+    classeCont = contagem(matrix)
+    a[matrix[0][RESULTADO]] = classeCont
+    return a
+
 
 # Aplica a função constagem
 # a uma lista de uma listas de listas
@@ -209,6 +235,7 @@ arvore[1] = [(0,a[0])]
 #print(c)
 #print(inpureza_all(c,inpureza1))
 print(contagem(data))
+print(contagemDebug(data))
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
 
