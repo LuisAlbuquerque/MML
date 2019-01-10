@@ -220,21 +220,10 @@ def inpureza1(x):
 
 def missclassification(x):
     N = len(x)
-    max = calcMaxProb(x)
     try:
-        return (1 - max ) / (N/(N-1))
+        return (1 - max(list(map(lambda l: P(l[1],x),x))) ) / (N/(N-1))
     except:
         return 0
-
-
-#função auxiliar
-#retorna o máximo da probabilidade encontrada em x e retorna-o
-def calcMaxProb(x): 
-    max = 0
-    for classe in x:
-        prob = P(classe[1],x)
-        if(max < prob ): max = prob
-    return max
 
 
 #versão antiga abaixo caso seja necessário revisitar
