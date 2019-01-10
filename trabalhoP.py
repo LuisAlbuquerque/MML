@@ -1,9 +1,15 @@
 from math import log
 from functools import reduce
 
+
+
 # ler o dataset
 with open("winequality-red.csv") as fd:
     data = list(map(lambda x: x.strip("\n").split(";"),fd.readlines()))
+
+
+
+
 
 # -- defines ---
 
@@ -13,6 +19,10 @@ SEP = []
 
 #---------------
 
+
+
+
+
 # ---Opcoes-----
 TIPO = 0 # regrressao
 #TIPO = 1 # mudar para classificao
@@ -21,16 +31,25 @@ HEADER = 1 # se tem uma linha com identificadores de coluna
 #HEADER = 0 # caso nao tenha
 # --------------
 
+
+
+
 # transformar arvore de regressao numa de classificacao
 
 # funcao que define o criterio para classificar um dado valor
 # como sim ou como nao
+
+#Notas Ezequiel:
+#sim = True; não = False
+#apesar de ser obvio, é importante dizer em algum lugar
+
 def cond(string,val):
     if(int(string)>val): return True
     return False
 
 # funcao que transforma um dataset de regressao
-# num de classificacao, usando a funcao cond como criterio
+# num de classificacao, usando a funcao cond 
+# definida acima como criterio
 def reg_to_class():
     for x in range(len(data)-HEADER):
         data[x+HEADER][RESULTADO] = cond(data[x+HEADER][RESULTADO],VAL)
@@ -42,10 +61,34 @@ if(TIPO):
 
 # ---------------
 
+
+
+
 # Calcula todas as possiblidades de valores
 # para uma determinada coluna
-def possiblidades(ind,lista):
-    return list(set(map(lambda x: x[ind],lista[HEADER:])))
+
+#Notas Ezequiel: cria uma set matemático(lista sem repetidos) única com o valor da coluna ind
+#Efetivamente, retira uma coluna de uma matriz 
+#e coloca numa lista todos os valores dela que sejam únicos
+
+def getColumnUniqueFromMatrix(index,matrix):
+    return list(set(map(lambda x: x[index],matrix[HEADER:])))
+
+
+#Mesmo que a anterior, 
+#mas retorna com o valor da coluna que foi retirada adicionado
+
+#Notas Ezequiel:
+#Como o nome sugere, é para uso de debug
+
+def getColumnUniqueFromMatrixDebug(index,matrix):
+    a = {}
+    column = getColumnUniqueFromMatrix(index,matrix)
+    a[matrix[0][index]] = column
+    return a
+
+
+
 
 # Para uma determinada lista
 # calcula o numero de linhas é que têm 
@@ -57,7 +100,7 @@ def possiblidades(ind,lista):
 # Regressão:
 #   [(v1: nº de ocurências de v1),...,(vn: nº de ocurências de vn)]
 def contagem(lista):
-    keys = possiblidades(RESULTADO,lista)
+    keys = getColumnUniqueFromMatrix(RESULTADO,lista)
     #--init dic--
     dic = {}
     for k in keys:
@@ -140,7 +183,7 @@ def separa(lista,ind,val):
 # cada lista corresponde a um atributo difrente
 def separa_all(lista,ind):
     res = []
-    for x in possiblidades(ind,lista):
+    for x in getColumnUniqueFromMatrix(ind,lista):
         res.append(separa(lista,ind,x))
     return res
 
@@ -160,9 +203,10 @@ a = separa_all(data,separator)
 c = contagem_all(a)
 arvore[1] = [(0,a[0])]
 #print(c)
-print(inpureza_all(c,inpureza1))
+#print(inpureza_all(c,inpureza1))
 #print(contagem(data))
-#print(possiblidades(2,data))
+print(getColumnUniqueFromMatrix(2,data))
+print(getColumnUniqueFromMatrixDebug(2,data))
 
 
 
