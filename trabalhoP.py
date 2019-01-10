@@ -112,9 +112,15 @@ def getColumnUniqueFromMatrixDebug(index,matrix):
 #da coluna com o atributo a prever
 #i.e., retorna uma contagem de que valores únicos da classe a prever temos no csv
 
-#Nota adicional: que raio é que tens contra chamar a lista o que é: uma matriz?
 
-def contagem(matrix):
+
+
+#Nota adicional: que raio é que tens contra chamar à "lista" o que é: uma matriz?
+
+
+
+
+def contagemDeClasse(matrix):
     keys = getColumnUniqueFromMatrix(RESULTADO,matrix)
     #--init dic--
     dic = {}
@@ -132,17 +138,25 @@ def contagem(matrix):
 #Notas Ezequiel:
 #Como o nome sugere, é para uso de debug
 
-def contagemDebug(matrix):
+def contagemDeClasseDebug(matrix):
     a = {}
-    classeCont = contagem(matrix)
+    classeCont = contagemDeClasse(matrix)
     a[matrix[0][RESULTADO]] = classeCont
     return a
 
 
 # Aplica a função constagem
 # a uma lista de uma listas de listas
-def contagem_all(lista):
-    return list(map(lambda x: contagem(x),lista))
+
+#Notas Ezequiel:
+#usa contagemDeClasse numa lista com várias matrizes
+def contagemDeClasseMultiplasMatrizes(matrix):
+    return list(map(lambda x: contagemDeClasse(x),matrix))
+
+
+
+
+
 
 # ----- funcoes de impureza -----
 
@@ -234,8 +248,8 @@ c = contagem_all(a)
 arvore[1] = [(0,a[0])]
 #print(c)
 #print(inpureza_all(c,inpureza1))
-print(contagem(data))
-print(contagemDebug(data))
+print(contagemDeClasse(data))
+print(contagemDeClasseDebug(data))
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
 
