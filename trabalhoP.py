@@ -355,7 +355,7 @@ arvore[1] = [(0,a[0])]
 
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
-print(inpureza_all(c,entropia))
+#print(inpureza_all(c,entropia))
 
 
 #print(contagemDeClasse(data))
@@ -367,4 +367,115 @@ print(inpureza_all(c,entropia))
 
 
 
+
+
+
+
+
+#Notas Ezequiel: abaixo estão as funções que devem ser usadas para depois criar as árvores
+#de notar que podem ter de ser alteradas
+
+#NOTA IMPORTANTE: os atributos são assumidos estarem em matriz[HEADER][:RESULTADO] e
+#as classes estarem em matriz[...][RESULTADO:]
+
+#SEGUNDA NOTA IMPORTANTE: eu não sei trabalhar com a notação [X:], [:X] 
+#, pelo que o que está abaixo provavelmente tem de ser alterado
+
+
+
+
+
+
+
+#dada um valor, uma coluna e uma matriz
+#retorna as linhas da matriz cujo valor em dada coluna é
+#igual ao valor dado
+
+#Nota Ezequiel: assume que a matriz contém os atributos em HEADERS
+#e retira dita linha
+
+def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
+    matrizSemAtributos = matriz[HEADERS:]
+    resultado = []
+    for linha in matrizSemAtributos:
+        if(linha[coluna] == valor): resultado.append(linha)
+    return resultado
+
+
+#função que faz o mesmo que a anterior, mas retira a coluna que
+#lhe foi passada como parametro
+def obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
+    matrizSeparada = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
+    resultado = []
+    for linha in matrizSeparada:
+        valorARetirar = linha[coluna]
+        resultado.append(linha.remove(valorARetirar))
+    return resultado
+
+
+
+
+#dada uma coluna e uma matriz separa a matrix pelos seus valores únicos e 
+#retorna a matriz separada em várias sem a coluna que lhe foi passada
+
+#Notas Ezequiel: assume-se que a matriz é uma lista de listas 
+#e que a coluna é uma valor inteiro
+#mais se assume que existem colunas suficientes na matriz para se retirar dita coluna
+
+def separaMatrizPorColunaAtributo(matriz,coluna):
+    valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
+    resultado = []
+    for valor in valoresUnicosColuna:
+        resultado.append(obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor))
+    return resultado
+    
+
+
+#dada o valor de um atributo e uma matriz com uma linha com nomes de atributos
+#  separa a matriz por dito nome
+#nota: assume que esse atributo existe na matriz, returnando vazio caso contrário
+
+
+def separaMatrizPorNomeAtributo(matriz,atributo):
+    atributos = matriz[HEADER][:RESULTADO]
+    coluna = 0
+    for atrAux in len(atributos):
+        if(atributos[atrAux] == atributo): 
+            coluna = atrAux
+            break
+    return separaMatrizPorColunaAtributo(matriz,coluna)
+
+
+
+#Dada a matriz a dividir e as funções de impureza e de ganho a usar, 
+#calcula qual o atributo a fazer a divisão por
+#e retorna a divisão com base nessa classe
+
+#Notas Ezequiel: esta função assume que a função de ganho está
+#feita como tendo 3 parametros: a impureza a usar, a matriz com os dados 
+# e um atributo xi identificado pelo seu nome
+
+#Nota adicional: esta função corresponde a um passo na divisão da árvore
+
+#Nota adiconal 2: no futuro provavelmente será boa ideia
+#retornar em vez de uma lista de matrizes um mapa que a cada 
+#lista associa o nº de classes que têm(i.e., um dicionário)
+
+def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
+    atributos = matriz[HEADER][:RESULTADO]
+    classes = matriz[HEADER][RESULTADO:]
+    maxGanho = 0
+    atributoMaxGanho = matriz[HEADER][0]
+
+    for atributo in atributos:
+        ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributo)
+        if(ganhoAtributo>maxGanho):
+            maxGanho = ganhoAtributo
+            atributoMaxGanho = atributo
+    
+    return separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
+
+    
+
+    
 
