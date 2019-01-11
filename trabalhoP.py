@@ -392,11 +392,11 @@ arvore[1] = [(0,a[0])]
 #igual ao valor dado
 
 #Nota Ezequiel: assume que a matriz contém os atributos em HEADERS
-#e retira dita linha
+
 
 def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     matrizSemAtributos = matriz[HEADERS:]
-    resultado = []
+    resultado = amtriz[HEADER]
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
     return resultado
