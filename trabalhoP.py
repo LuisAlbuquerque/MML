@@ -68,6 +68,11 @@ if(TIPO):
 # ---------------
 
 
+# retira todos os valores de uma coluna de uma matriz
+
+def getColumnFromMatrix(coluna,matriz):
+    return list(map(lambda x: x[index],matrix[HEADER:]))
+
 
 
 # Calcula todas as possiblidades de valores
@@ -396,7 +401,7 @@ arvore[1] = [(0,a[0])]
 
 def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     matrizSemAtributos = matriz[HEADERS:]
-    resultado = amtriz[HEADER]
+    resultado = matriz[HEADER]
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
     return resultado
@@ -460,6 +465,7 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
     
     #retorna uma lista com as matrizes da separação da matriz pelo atributo
     return separaMatrizPorColunaAtributo(matriz,coluna)
+
     #retorna um mapa que a cada valor único do atributo
     #associa a matriz que lhe está associada
     #return separaMatrizPorColunaAtributoMap(matriz,coluna)
@@ -496,6 +502,20 @@ def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
     
     return atributoMaxGanho,separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
 
+
+#função auxiliar à recursiva abaixo
+#serve para prunning à arvore
+
+def prunningDeArvore(matriz):
+    classes = contagemDeClasse(matriz)
+    numeroElementosMatriz = len(matriz)
+    for classe in classes:
+        #se o número de elementos de qualquer classe for mais de 90% do total
+        if( (classe[1] / numeroElementosMatriz) > 0.9):
+            return True
+    return False
+
+
     
 #função que dada uma matriz, seus atributos e 2 funções(impureza e ganho) 
 #cria a árvore de decisão revursivamente
@@ -508,8 +528,9 @@ def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
 
 def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
-    if(not atributos):
+    if( (not atributos) || (prunningDeArvore(matriz)) ):
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
+        # ou o nº de elementos de uma classe supera uma certa percentagem(prunning)
         return matriz
     else:
         #caso recursivo: atributos ainda existem
@@ -524,15 +545,5 @@ def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGan
         # a estrutura final será um lista de matrizes que corresponde a todas as divisões feitas
         #(pelo menos é essa a ideia)
         #,i.e., é uma lista com os ramos finais da árvore
-        #NOTA: nesta altura não está as ser feito nenhum prunning
-        #,ou seja, a função para apenas quando subdividir por todos os atributos
-        #isto é potencialmente muito ineficiente, pelo que
-        #é importante adicionar prunning a esta função depois
-        # por exemplo, podemos adicionar ao caso de paragem uma condição
-        # || que verifique se na coluna das classes temos todos os valores iguais
-        #(note-se que pode ser menos que 100% de uma classe, 
-        #pode ser 90 ou menos, tem de se decidir)
-        #se fizermos isto é melhor garantir que chamamos uma função auxiliar
-        #para o caso de querermos alterar a percentagem mais tarde
         return arvore
 
