@@ -480,6 +480,8 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 #retornar em vez de uma lista de matrizes um mapa que a cada 
 #lista associa o nº de classes que têm(i.e., um dicionário)
 
+#nota: retorna o atributo para a função recursive
+
 def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
     atributos = matriz[HEADER][:RESULTADO]
     classes = matriz[HEADER][RESULTADO:]
@@ -492,9 +494,45 @@ def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
             maxGanho = ganhoAtributo
             atributoMaxGanho = atributo
     
-    return separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
+    return atributoMaxGanho,separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
 
     
+#função que dada uma matriz, seus atributos e 2 funções(impureza e ganho) 
+#cria a árvore de decisão revursivamente
 
-    
+#Notas Ezequiel:
+#devido à importância desta função por favor confirmem que funciona devidamente
+#enquanto que vou testar gostaria de ter confirmação de que funciona
+
+#Nota2: esta função é recursiva
+
+def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
+
+    if(not atributos):
+        #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
+        return matriz
+    else:
+        #caso recursivo: atributos ainda existem
+        atributo,divisao = calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho)
+        arvore = []
+        novosAtributos = atributos.remove(atributo)
+        for mat in divisao:
+            arvore.append( 
+                calculaArvoreDecisãoDadaMatrizRec(mat,novosAtributos,funcaoImpureza,funcaoGanho) 
+            )
+        #nota: devido a como está a ser construido,
+        # a estrutura final será um lista de matrizes que corresponde a todas as divisões feitas
+        #(pelo menos é essa a ideia)
+        #,i.e., é uma lista com os ramos finais da árvore
+        #NOTA: nesta altura não está as ser feito nenhum prunning
+        #,ou seja, a função para apenas quando subdividir por todos os atributos
+        #isto é potencialmente muito ineficiente, pelo que
+        #é importante adicionar prunning a esta função depois
+        # por exemplo, podemos adicionar ao caso de paragem uma condição
+        # || que verifique se na coluna das classes temos todos os valores iguais
+        #(note-se que pode ser menos que 100% de uma classe, 
+        #pode ser 90 ou menos, tem de se decidir)
+        #se fizermos isto é melhor garantir que chamamos uma função auxiliar
+        #para o caso de querermos alterar a percentagem mais tarde
+        return arvore
 
