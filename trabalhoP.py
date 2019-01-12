@@ -430,6 +430,18 @@ def separaMatrizPorColunaAtributo(matriz,coluna):
     return resultado
     
 
+#Mesma função que a anterior, mas retorna um mapa com a associação entre
+#os valores únicos do atributo e a divisão que lhe foi feita,
+
+def separaMatrizPorColunaAtributoMapa(matriz,coluna):
+    valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
+    resultado = {}
+    for valor in valoresUnicosColuna:
+        resultado[valor] = obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
+    return resultado
+
+
+
 
 #dada o valor de um atributo e uma matriz com uma linha com nomes de atributos
 #  separa a matriz por dito nome
@@ -443,7 +455,14 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
         if(atributos[atrAux] == atributo): 
             coluna = atrAux
             break
+
+    #Nota: escolher um dos métodos de retorno abaixo mais tarde
+    
+    #retorna uma lista com as matrizes da separação da matriz pelo atributo
     return separaMatrizPorColunaAtributo(matriz,coluna)
+    #retorna um mapa que a cada valor único do atributo
+    #associa a matriz que lhe está associada
+    #return separaMatrizPorColunaAtributoMap(matriz,coluna)
 
 
 
