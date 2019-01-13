@@ -528,7 +528,7 @@ def prunningDeArvore(matriz):
 
 def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
-    if( (not atributos) || (prunningDeArvore(matriz)) ):
+    if( (not atributos) or (prunningDeArvore(matriz)) ):
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
         # ou o nº de elementos de uma classe supera uma certa percentagem(prunning)
         return matriz
