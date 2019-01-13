@@ -547,3 +547,22 @@ def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGan
         #,i.e., é uma lista com os ramos finais da árvore
         return arvore
 
+
+#dada uma percentagem e uma matriz separa matriz através de percentagem
+#, retornando 2 conjuntos de percentagem% e (100-percentagem)% 
+# do tamanho do dataset original)
+
+def divideMatrizPorPercentagem(matriz,percentagem):
+    tamanho = len(matriz)
+    tamanhoPercentagem = tamanho * (percentagem/100)
+    return matriz[:tamanhoPercentagem],matriz[tamanhoPercentagem:]
+
+
+
+#dada uma percentagem cria a árvore com as percentagem% primeiras entradas dos dados
+#retorna tanto a árvore criada como os outros (100-percentagem)% dos dados
+
+def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanho):
+    treino,teste = divideMatrizPorPercentagem(matriz,percentagem)
+    arvore = calculaArvoreDecisãoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
+    return arvore,teste
