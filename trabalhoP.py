@@ -437,11 +437,12 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 
     #retorna um mapa que a cada valor único do atributo
     #associa a matriz que lhe está associada
-    #return separaMatrizPorColunaAtributoMap(matriz,coluna)
+    #return coluna,separaMatrizPorColunaAtributoMap(matriz,coluna)
 
 
 
-#Dada a matriz a dividir e as funções de impureza e de ganho a usar, 
+#Dada a matriz a dividir, os atributos que falta dividir por
+#e as funções de impureza e de ganho a usar, 
 #calcula qual o atributo a fazer a divisão por
 #e retorna a divisão com base nessa classe
 
@@ -455,11 +456,9 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 #retornar em vez de uma lista de matrizes um mapa que a cada 
 #lista associa o nº de classes que têm(i.e., um dicionário)
 
-#nota: retorna o atributo para a função recursive
+#nota: retorna o atributo para a função recursiva
 
-def calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho):
-    atributos = matriz[HEADER][:RESULTADO]
-    classes = matriz[HEADER][RESULTADO:]
+def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
     atributoMaxGanho = matriz[HEADER][0]
 
@@ -503,12 +502,12 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
         return matriz
     else:
         #caso recursivo: atributos ainda existem
-        atributo,divisao = calculaAtributomelhor(matriz,funcaoImpureza,funcaoGanho)
+        atributo,divisao = calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho)
         arvore = []
         novosAtributos = atributos.remove(atributo)
         for mat in divisao:
             arvore.append( 
-                calculaArvoreDecisãoDadaMatrizRec(mat,novosAtributos,funcaoImpureza,funcaoGanho) 
+                calculaArvoreDecisaoDadaMatrizRec(mat,novosAtributos,funcaoImpureza,funcaoGanho) 
             )
         #nota: devido a como está a ser construido,
         # a estrutura final será um lista de matrizes que corresponde a todas as divisões feitas
