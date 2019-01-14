@@ -396,22 +396,25 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
 #e que a coluna é uma valor inteiro
 #mais se assume que existem colunas suficientes na matriz para se retirar dita coluna
 
-def separaMatrizPorColunaAtributo(matriz,coluna):
-    valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
-    resultado = []
-    for valor in valoresUnicosColuna:
-        resultado.append(retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor))
-    return resultado
+#nota: não em uso por razões de previsão
+
+#def separaMatrizPorColunaAtributo(matriz,coluna):
+#    valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
+#    resultado = []
+#    for valor in valoresUnicosColuna:
+#        resultado.append(retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor))
+#    return resultado
     
 
-#Mesma função que a anterior, mas retorna um mapa com a associação entre
-#os valores únicos do atributo e a divisão que lhe foi feita,
 
-def separaMatrizPorColunaAtributoMapa(matriz,coluna):
+#Mesma função que a anterior, mas retorna um mapa com a associação entre
+#os valores únicos do atributo(e seu nome) e a divisão que lhe foi feita
+
+def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = {}
     for valor in valoresUnicosColuna:
-        resultado[valor] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
+        resultado[(atributo,valor)] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
     return resultado
 
 
@@ -421,6 +424,8 @@ def separaMatrizPorColunaAtributoMapa(matriz,coluna):
 #  separa a matriz por dito nome
 #nota: assume que esse atributo existe na matriz, returnando vazio caso contrário
 
+#NOTA: assume que matriz é uma matriz e não um mapa 
+#mas retorna um mapa
 
 def separaMatrizPorNomeAtributo(matriz,atributo):
     atributos = matriz[HEADER][:RESULTADO]
@@ -430,14 +435,53 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
             coluna = atrAux
             break
 
-    #Nota: escolher um dos métodos de retorno abaixo mais tarde
-    
-    #retorna uma lista com as matrizes da separação da matriz pelo atributo
-    return separaMatrizPorColunaAtributo(matriz,coluna)
-
-    #retorna um mapa que a cada valor único do atributo
+    #retorna um mapa que a cada valor único do atributo e seu nome
     #associa a matriz que lhe está associada
-    #return coluna,separaMatrizPorColunaAtributoMap(matriz,coluna)
+    return separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna)
+
+
+#dado um atributo, e um mapa com chaves de valores simples
+#retorna o mapa com chaves em tuplos
+
+#notas Ezequiel: entre esta e a função abaixo devemos
+#ter definidas a criação das chaves do mapa
+
+#nota: em desuso por causa de redefinição de separaMatrizPorColunaAtributoMapa
+
+#def adicionarNomeAtributoAMapaMatrizes(atributo,MapaMatizes):
+#    for key in mapaMatrizes.keys():
+#        newKey = (atributo,key)
+#        resultado[newKey] = mapaMatrizes[key]
+#    return resultado
+
+
+
+
+#dado um tuplo (atributo,valor) e dado um mapa altera
+#altera o mapa para ter uma chave (atributo,valorAtributo,atributo2,valorAtributo2,.....)
+#, onde os atributos adicionais já existiam no mapa
+
+#notas ezequiel: a ideia é alterar o mapa
+#de tal modo que no final da árvore cada uma das chaves
+# corresponda a uma sequência de regras atributo == valorAtributo
+#, de modo a podermos criar uma previsão válida
+
+#notas adicionais: a razão par ao tuplo em vez de um array é
+#pelo facto que arrays não podem ser usados como chave em Python
+#(e acho que para nenhuma linguagem que me lembre por agora)
+
+def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
+    resultado = {}
+    #caso geral: mapaMatrizes é um mapa de matrizes
+    if(isinstance(mapaMatrizes,dict)):
+        for key in mapaMatrizes.keys():
+            newKey = key + tuplo
+            resultado[newKey] = mapaMatrizes[key]
+    #caso de paragem: mapaMatrizes é uma matriz
+    else:
+        resultado[tuplo] = mapaMatrizes
+        
+    return resultado
 
 
 
@@ -458,6 +502,9 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 
 #nota: retorna o atributo para a função recursiva
 
+#NOTA: assume que matriz é matriz e não mapa
+#mas retorna um mapa associado à matriz
+
 def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
     atributoMaxGanho = matriz[HEADER][0]
@@ -467,8 +514,10 @@ def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
         if(ganhoAtributo>maxGanho):
             maxGanho = ganhoAtributo
             atributoMaxGanho = atributo
+        
+    matrizSeparada = separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
     
-    return atributoMaxGanho,separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
+    return atributoMaxGanho, matrizSeparada
 
 
 #função auxiliar à recursiva abaixo
@@ -494,6 +543,10 @@ def prunningDeArvore(matriz):
 
 #Nota2: esta função é recursiva
 
+#nota: devido aos requerimentos associados a calculaAtributoMelhor e prunningDeArvore,
+#matriz tem de ser uma matriz e não um mapa
+#portanto temos de ter cuidado em como juntamos os resultados todos
+
 def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
     if( (not atributos) or (prunningDeArvore(matriz)) ):
@@ -503,16 +556,42 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
     else:
         #caso recursivo: atributos ainda existem
         atributo,divisao = calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho)
-        arvore = []
+        arvore = {}
         novosAtributos = atributos.remove(atributo)
-        for mat in divisao:
-            arvore.append( 
-                calculaArvoreDecisaoDadaMatrizRec(mat,novosAtributos,funcaoImpureza,funcaoGanho) 
-            )
-        #nota: devido a como está a ser construido,
-        # a estrutura final será um lista de matrizes que corresponde a todas as divisões feitas
-        #(pelo menos é essa a ideia)
-        #,i.e., é uma lista com os ramos finais da árvore
+        #isto abaixo precisa de alguma explicação:
+        #isto é uma função recursiva
+        #o que estamos a fazer é em cada passo escolhemos um atributo,
+        #separamos por valor de dito atributo
+        #e retornamos um mapa com (atributo,valorAtributo) associado à matriz que lhe correpsonde
+        #, que será a matriz correspondente a dividir a árvore pela regrea atributo == valorAtributo
+        
+        #depois disso, retiramos o atributo que usamos na divisão 
+        #de modo a impedir divisões pelo mesmo atributo de serem processadas
+        #(o que seria tanto estupido como uma perda de tempo)
+
+        #finalmente como cada chave é um tuplo
+        #e o próximo passo cria um mapa do mesmo formato que o que obtivemos neste passo
+        #podemos concatenar as chaves usando o adicionaChaveTuploAMapaMatrizes
+        # e obtemos um mapa onde cada matriz terá associado
+        #como sua chave um tuplo (attr1,valattr1,attr2,valattr2)
+        #que corresponderá à divisão por attr1==valattr1 && attr2==valattr2
+
+        #recursivamente faz-se isto até chegarmos ao fundo
+        #quando chegarmos aí, temos de ter o cuidado de na adicionaChaveTuploAMapaMatrizes
+        #ter um caso para em vez de mapa ter uma matriz
+
+
+        for key in divisao.keys():
+            arvore[key] = adicionaChaveTuploAMapaMatrizes(
+                            key,
+                            calculaArvoreDecisaoDadaMatrizRec(
+                                divisao[key],novosAtributos,funcaoImpureza,funcaoGanho
+                            ) 
+                        )
+
+        #nota: no final termos um mapa onde
+        #a sua chave terá a forma (attr1,valattr1,attr2,valattr2,....)
+        #que corresponderá às regras de criação de dita separação
         return arvore
 
 
