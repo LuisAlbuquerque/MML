@@ -193,7 +193,8 @@ def P(val,pos):
 def gini_index(x):
     N = len(x)
     try:
-        return (1-reduce(lambda a,b: P(a[1],x) * P(b[1],x), x) ) / (N/(N-1))
+        return (1-reduce(lambda a,b: (P(a[1],x)**2) * (P(b[1],x)**2), x) ) / (N/(N-1))
+        #return (1-reduce(lambda a,b: P(a[1],x) * P(b[1],x), x) ) / (N/(N-1))
     except:
         return 0
 
@@ -526,7 +527,7 @@ def prunningDeArvore(matriz):
 
 #Nota2: esta função é recursiva
 
-def calculaArvoreDecisãoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
+def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
     if( (not atributos) or (prunningDeArvore(matriz)) ):
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
@@ -566,3 +567,4 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
     treino,teste = divideMatrizPorPercentagem(matriz,percentagem)
     arvore = calculaArvoreDecisãoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
     return arvore,teste
+
