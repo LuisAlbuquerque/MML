@@ -1,5 +1,7 @@
+
 from math import log
 from functools import reduce
+import random
 
 
 
@@ -8,6 +10,19 @@ with open("winequality-red.csv") as fd:
     data = list(map(lambda x: x.strip("\n").split(";"),fd.readlines()))
 
 
+
+
+
+def split(data,perc):
+
+    treino = random.sample(data, round(len(data)*perc))
+    teste = [x for x in data if x not in treino]
+
+    # print(treino)
+    # print(teste)
+
+# 70% Treino
+split(data,0.7) 
 
 
 
