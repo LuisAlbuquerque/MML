@@ -13,16 +13,23 @@ with open("winequality-red.csv") as fd:
 
 
 
+#dada uma percentagem e uma matriz separa-a através de percentagem
+#, retornando 2 conjuntos de percentagem% e (1-percentagem)% 
+# do tamanho do dataset original)
 def split(data,perc):
 
     treino = random.sample(data, round(len(data)*perc))
     teste = [x for x in data if x not in treino]
+    
+    return treino,teste
 
-    # print(treino)
-    # print(teste)
 
-# 70% Treino
-split(data,0.7) 
+#por exemplo, se quisermos 70% dados de Treino chamamos
+#split(data,0.7) 
+#durante a criação da árvore
+
+
+
 
 
 
@@ -352,47 +359,6 @@ def separa_all(listaMatrizes,ind):
 
 
 
-
-
-
-#print(separa_all(data,11)[0])
-#print(contagem_all(separa_all(data,5)))
-#a = contagem_all(separa_all(data,5))
-#print(inpureza_all(a,inpureza2))
-
-
-arvore = {}
-separator = 0
-count = 1
-
-arvore[0] = [(0,data)]
-
-a = separa_all(data,separator)
-c = contagemDeClasseMultiplasMatrizes(a)
-arvore[1] = [(0,a[0])]
-
-
-#print(c)
-
-#print(inpureza_all(c,gini_index))
-#print(inpureza_all(c,missclassification))
-#print(inpureza_all(c,entropia))
-
-
-#print(contagemDeClasse(data))
-#print(contagemDeClasseDebug(data))
-
-
-#print(getColumnUniqueFromMatrix(2,data))
-#print(getColumnUniqueFromMatrixDebug(2,data))
-
-
-
-
-
-
-
-
 #Notas Ezequiel: abaixo estão as funções que devem ser usadas para depois criar as árvores
 #de notar que podem ter de ser alteradas
 
@@ -423,19 +389,6 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     return resultado
 
 
-#função que faz o mesmo que a anterior, mas retira a coluna que
-#lhe foi passada como parametro
-def obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
-    matrizSeparada = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
-    resultado = []
-    for linha in matrizSeparada:
-        valorARetirar = linha[coluna]
-        resultado.append(linha.remove(valorARetirar))
-    return resultado
-
-
-
-
 #dada uma coluna e uma matriz separa a matrix pelos seus valores únicos e 
 #retorna a matriz separada em várias sem a coluna que lhe foi passada
 
@@ -447,7 +400,7 @@ def separaMatrizPorColunaAtributo(matriz,coluna):
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = []
     for valor in valoresUnicosColuna:
-        resultado.append(obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor))
+        resultado.append(retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor))
     return resultado
     
 
@@ -458,7 +411,7 @@ def separaMatrizPorColunaAtributoMapa(matriz,coluna):
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = {}
     for valor in valoresUnicosColuna:
-        resultado[valor] = obtemLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
+        resultado[valor] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
     return resultado
 
 
@@ -564,22 +517,63 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
         return arvore
 
 
-#dada uma percentagem e uma matriz separa matriz através de percentagem
-#, retornando 2 conjuntos de percentagem% e (100-percentagem)% 
-# do tamanho do dataset original)
-
-def divideMatrizPorPercentagem(matriz,percentagem):
-    tamanho = len(matriz)
-    tamanhoPercentagem = tamanho * (percentagem/100)
-    return matriz[:tamanhoPercentagem],matriz[tamanhoPercentagem:]
-
 
 
 #dada uma percentagem cria a árvore com as percentagem% primeiras entradas dos dados
 #retorna tanto a árvore criada como os outros (100-percentagem)% dos dados
 
 def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanho):
-    treino,teste = divideMatrizPorPercentagem(matriz,percentagem)
+    treino,teste = split(matriz,percentagem)
     arvore = calculaArvoreDecisãoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
     return arvore,teste
+
+
+
+
+
+
+
+
+
+
+
+
+
+#programa abaixo desta linha
+
+
+
+
+#print(separa_all(data,11)[0])
+#print(contagem_all(separa_all(data,5)))
+#a = contagem_all(separa_all(data,5))
+#print(inpureza_all(a,inpureza2))
+
+
+arvore = {}
+separator = 0
+count = 1
+
+arvore[0] = [(0,data)]
+
+a = separa_all(data,separator)
+c = contagemDeClasseMultiplasMatrizes(a)
+arvore[1] = [(0,a[0])]
+
+
+#print(c)
+
+#print(inpureza_all(c,gini_index))
+#print(inpureza_all(c,missclassification))
+#print(inpureza_all(c,entropia))
+
+
+#print(contagemDeClasse(data))
+#print(contagemDeClasseDebug(data))
+
+
+#print(getColumnUniqueFromMatrix(2,data))
+#print(getColumnUniqueFromMatrixDebug(2,data))
+
+
 
