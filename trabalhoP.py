@@ -1068,15 +1068,18 @@ def calculaQualidadePrevisao(previsao,real):
 
 def calculaQualidadePrevisaoMatriz(arvore,matriz):
     print(matriz[0])
-    mat = []
+    mataux = []
     for val in range(len(matriz)):
-        mat.append(matriz[val])
-    print(mat[0])
+        auxiliar = []
+        for value in range(len(matriz[val])):
+            auxiliar.append(matriz[val][value])
+        mataux.append(auxiliar)
+    print(mataux[0])
     previsao = preveDadaArvoreParaMatriz(arvore,matriz)
-    print(mat[0])
-    mat.pop(0)
-    print(mat[0])
-    real = getColumnFromMatrix(RESULTADO,mat)
+    print(mataux[0])
+    mataux.pop(0)
+    print(mataux[0])
+    real = getColumnFromMatrix(RESULTADO,mataux)
     return calculaQualidadePrevisao(previsao,real)
 
 
