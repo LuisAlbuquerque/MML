@@ -541,9 +541,21 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
         
     return resultado
 
+
+
+
+
+
+
+
+
+
+
+
+
 # ----- funcoes de ganho -----
 
-def ganhon(impureza,antes,depois,nramos,n):
+def ganhon(impureza,antes,depois,nramos,n=1):
     return (impureza(antes) - impureza(depois))\
                     / (nramos**n)
 
@@ -572,6 +584,9 @@ def funcaoGanho(f,matriz,atributo,fg):
     depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys()))
     return fg(f,antes,depois,nramos) 
 
+
+
+
 # funcoes de ganho para serem chamadas
 
 def funcaoGanhon(f,matriz,atributo):
@@ -582,6 +597,20 @@ def funcaoGanhoe(f,matriz,atributo):
 
 def funcaoGanho_(f,matriz,atributo):
     return funcaoGanho(f,matriz,atributo,ganho)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # ----------------------------
 
