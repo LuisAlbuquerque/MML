@@ -567,7 +567,7 @@ def funcaoGanho(f,matriz,atributo):
     antes = impurezaAUX(matriz,f)
     Map = separaMatrizPorNomeAtributo(matriz,atributo)
     nramos = list(len(Map.keys()))
-    depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys())
+    depois = reduce(lambda x,y: ganhoAUX(Map[x],f) + ganhoAUX(Map[y],f), list(Map.keys())
     return ganho(f,antes,depois,nramos) 
 
 
