@@ -313,18 +313,31 @@ def entropia(x):
 #MaxDiff como definida inicialmente
 #i.e, MaxDiff without changes no relatório
 
-
 #MaxDiff with threshold
 
 
 #MaxDiff normalizado
+#como no relatório
 
 def MaxDiffNormalized(x):
     N = len(x)
-    try:
-        return ( max(   list(map(  lambda l:  P(l[1],x) - (1 - P(l[1],x))  ,x)   )  / N
+    try: 
+        return ( max(   list(map(  lambda l:  P(l[1],x) - (1 - P(l[1],x))  ,x)   )  )   ) / N
     except:
         return 0
+
+
+#MaxDiffNormalizado como no papel ref1
+#relembrar que para cada l em x temos que l[1] é
+#o nº de occorências de um certo valor de classe em x
+
+def MaxDiffNormalizadoPapel(x):
+    N = len(x)
+    try: 
+        return ( max(   list(map(  lambda l:  l[1] - (N - l[1])  ,x)   )  )   ) / N
+    except:
+        return 0    
+
 
 
 
@@ -680,7 +693,7 @@ arvore[1] = [(0,a[0])]
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
 #print(inpureza_all(c,entropia))
-#print(inpureza_all(c,MaxDiffNormalized))
+print(inpureza_all(c,MaxDiffNormalized))
 #print(inpureza_all(c,generalized_gini_index))
 
 
