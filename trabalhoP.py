@@ -1020,6 +1020,7 @@ def criaDictAPartirDeEntrada(entrada,atributos):
 
 def preveDadaArvoreParaMatriz(arvore, matriz):
     arvoreProcesada = criaArvoreDeDecisão(arvore)
+    #print(arvoreProcesada[list(arvoreProcesada.keys())[10]])
 
     previsao = []
     #print(matriz)
@@ -1035,7 +1036,7 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
             if(equalsTreeKeyAndValue(key, dictMatriz)):
                 previsao.append(arvoreProcesada[key])
                 break
-
+    #print(previsao[0])
     return previsao
 
 
@@ -1047,10 +1048,12 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 # a dividir pelo nº total de registos
 
 def calculaQualidadePrevisao(previsao,real):
+    real.pop(0)
     sum = len(real)
     positivos = 0
     for linha in range(len(previsao)):
-        if(previsao[linha] == real[linha]): positivos +=1
+        if((int(previsao[linha])) == int(real[linha]) ): 
+            positivos +=1
     return positivos/sum
 
 
