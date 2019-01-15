@@ -446,7 +446,8 @@ def separa_all(listaMatrizes,ind):
 
 def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     matrizSemAtributos = matriz[HEADER:]
-    resultado = matriz[0]
+    resultado = []
+    resultado.append(matriz[0])
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
     print("HAHA" + str(resultado[0]) + str(matriz[0][0]))
@@ -480,8 +481,9 @@ def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = {}
     for valor in valoresUnicosColuna:
-        print('TEG2' + str(mat == matriz) )
+        print('TEG2' + str(mat == matriz) + str(valor) )
         resultado[(atributo,valor)] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
+        print('TEG3' + str(mat==matriz) + str(valor) + str(resultado[(atributo,valor)]) )
     return resultado
 
 
