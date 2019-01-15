@@ -17,11 +17,27 @@ with open("winequality-red.csv") as fd:
 #, retornando 2 conjuntos de percentagem% e (1-percentagem)% 
 # do tamanho do dataset original)
 def split(data,perc):
+    headerColumn = data[0]
+
+    data = data[HEADER:]
+    #print(data[0])
+
 
     treino = random.sample(data, round(len(data)*perc))
     teste = [x for x in data if x not in treino]
-    
-    return treino,teste
+
+    newTreino = []
+    newTreino.append(headerColumn)
+    for line in treino: 
+        newTreino.append(line)
+
+    newTeste = []
+    newTeste.append(headerColumn)
+    for line in teste: 
+        newTeste.append(line)
+
+
+    return newTreino,newTeste
 
 
 #por exemplo, se quisermos 70% dados de Treino chamamos
@@ -102,7 +118,8 @@ def retiraColunaDeMatrizPorColuna(matriz,coluna):
     resultado = []
     for linha in range(len(matriz)):
         retirado = matriz[linha][coluna]
-        resultado.append( linha.remove(retirado) )
+        linhadaMatriz = matriz[linha]
+        resultado.append( linhadaMatriz.remove(retirado) )
     return resultado
 
 
@@ -849,7 +866,7 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
     treino,teste = split(matriz,percentagem)
     atributos = matriz[0][:RESULTADO]
     arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho)
-    print(arvore.keys())
+    #print(arvore.keys())
     return arvore,treino,teste
 
 
@@ -878,12 +895,13 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
 def getPrevisãoDadaMatriz(matriz):
     classes = contagemDeClasse(matriz)
     max = 0
-    maxColuna = classes[list(classes.keys())[0]]
-    for key in classes.keys():
-        valor = classes[key]
+    #print(classes)
+    maxColuna = classes[0][1]
+    for coluna in range(len(classes)):
+        valor = classes[coluna][1]
         if(valor>max): 
             max = valor
-            maxColuna = key
+            maxColuna = coluna
     return maxColuna
 
 
@@ -931,8 +949,10 @@ def equalsTreeKeyAndValue(key,dict):
 
 def criaDictAPartirDeEntrada(entrada,atributos):
     res = {}
+    print( entrada )
+    print(atributos)
 
-    for coluna in range(len(coluna)):
+    for coluna in range(len(atributos)):
         res[ atributos[coluna] ] = entrada[coluna]
 
     return res
@@ -954,8 +974,9 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
     arvoreProcesada = criaArvoreDeDecisão(arvore)
 
     previsao = []
-
+    print(matriz)
     atributos = retiraColunaDeMatrizPorColuna(matriz,RESULTADO)
+    print(atributos)
 
     atributosSemHeader = atributos[HEADER:]
 
