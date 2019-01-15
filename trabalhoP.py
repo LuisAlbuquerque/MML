@@ -1049,7 +1049,7 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 
 def calculaQualidadePrevisao(previsao,real):
     real.pop(0)
-    sum = len(real)
+    sum = len(previsao)
     positivos = 0
     for linha in range(len(previsao)):
         if((int(previsao[linha]) + 4) == int(real[linha]) ): 
