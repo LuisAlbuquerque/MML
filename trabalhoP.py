@@ -215,7 +215,7 @@ def P(val,pos):
 def gini_index(x):
     N = len(x)
     try:
-        return (1-reduce(lambda a,b: (P(a[1],x)**2) * (P(b[1],x)**2), x) ) / (N/(N-1))
+        return (1-reduce(lambda a,b: (P(a[1],x)**2) + (P(b[1],x)**2), x) ) / (N/(N-1))
         #return (1-reduce(lambda a,b: P(a[1],x) * P(b[1],x), x) ) / (N/(N-1))
     except:
         return 0
