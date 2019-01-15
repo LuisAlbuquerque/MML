@@ -601,8 +601,12 @@ def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
     mat = matriz
     impurezaMatriz = impurezaAUX(mat,funcaoImpureza)
     Map = separaMatrizPorNomeAtributo(mat,atributo)
-    print (mat == matriz)
-    print('MMM' + str(atributo) + str(matriz[0][0])  + str(Map[ list(Map.keys())[0] ][0]))
+    print('MMM' 
+            + str(atributo) 
+            + str(matriz) 
+            + str(mat == matriz) 
+            + str(Map[ list(Map.keys())[0] ][0])
+    )
     nRamos = len(Map.keys())
     impurezaAtributo = calcImpurezaAtributo(Map,funcaoImpureza,len(matriz))
     return funcaoGanho(impurezaMatriz,impurezaAtributo,nRamos,T)
