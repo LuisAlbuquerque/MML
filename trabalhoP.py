@@ -1067,10 +1067,10 @@ def calculaQualidadePrevisao(previsao,real):
 #e que a matriz que lhe é passada ainda tem a classe associada
 
 def calculaQualidadePrevisaoMatriz(arvore,matriz):
-    print('hi' + str(matriz[0]))
     mat = matriz
+    print('hi' + str(matriz[0]) + str(mat[0]))
     previsao = preveDadaArvoreParaMatriz(arvore,matriz)
-    print(matriz[0])
+    print('bye' + str(matriz[0]) + str(mat[0]))
     print(mat==matriz)
     real = getColumnFromMatrix(RESULTADO,matriz)[HEADER:]
     return calculaQualidadePrevisao(previsao,real)
