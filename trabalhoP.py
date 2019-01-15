@@ -739,7 +739,7 @@ def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
         
     matrizSeparada = separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
 
-    print('chave' + str(atributoMaxGanho))
+    #print('chave' + str(atributoMaxGanho))
 
     return atributoMaxGanho, matrizSeparada
 
@@ -1092,8 +1092,8 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
 
     #efetivamente devemos retirar como qualidade uma das funções que usamos
     # e a que foi proposta em ref2
-    print(treino[0])
-    print(teste[0])
+    #print(treino[0])
+    #print(teste[0])
 
     return calculaQualidadePrevisaoMatriz(arvore,treino),calculaQualidadePrevisaoMatriz(arvore,teste)
 
