@@ -813,8 +813,7 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
     #efetivamente devemos retirar como qualidade uma das funções que usamos
     # e a que foi proposta em ref2
 
-    #para tal temos de calcular true positives(a previsão e o real são iguais)
-    #e false positives(a previsão e o real são diferentes)
+    return caculaQualidadePrevisaoMatriz(arvore,treino),caculaQualidadePrevisaoMatriz(arvore,teste)
 
 
 
