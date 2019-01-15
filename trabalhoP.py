@@ -754,16 +754,16 @@ def prunningDeArvore(matriz):
 #função auxiliar que dada uma chave coloca na ordem devida
 def makeKeyRight(key):
     newKey = key
-    if(len(key) == 2):
-        attr = key[0]
-        valattr = key[1]
-        print('HI')
+    print(key,len(key))
+    for pair in range(int(len(key)/2)):
+        attr = key[ 2 * pair]
+        valattr = key[2 * pair + 1]
         print(attr,valattr)
         if(isinstance(attr,int)):
             print('sup')
-            attr,valattr = valattr,attr
-        newKey = (attr,valattr)
-        #print(newKey)
+            newAttr,newValattr = valattr,attr
+            newKey = (newAttr,newValattr)
+            print(newKey)
     return newKey
 
 
