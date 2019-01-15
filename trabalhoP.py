@@ -319,10 +319,26 @@ def entropia(x):
 #MaxDiff normalizado
 #como no relatório
 
+#NOTA: devido a como probabilidades funcionam,
+# obter um número negativo é trivial:
+#apenas é preciso que todos os elementos l[1] sejam menores que 50%
+#do valor de N
+
+#para corrigir apenas temos de perceber que em vez
+# de [0,1] o espaço de soluções de P(l,x) - P(not l, x) está entre [-1,1]
+#e normalizar
+
+#assim, -1 -> 0, 0 -> 0.5 , 1 -> 1, 0.5 -> 0.75 , ....
+#i.e., X -> X + (0.5 * (1-X) )
+
+#note-se que isto deve ser feito DEPOIS de termos feita a normalização
+#através da divisão por N
+
 def MaxDiffNormalized(x):
     N = len(x)
     try: 
-        return ( max(   list(map(  lambda l:  P(l[1],x) - (1 - P(l[1],x))  ,x)   )  )   ) / N
+        X = ( max(   list(map(  lambda l:  P(l[1],x) - (1 - P(l[1],x))  ,x)   )  )   ) / N
+        return X + (0.5 * (1-X))
     except:
         return 0
 
@@ -332,13 +348,9 @@ def MaxDiffNormalized(x):
 #proposto no ref1
 
 def generalized_gini_index(x):
-    N = len(x)
-    try:
-        return (N-reduce(lambda a,b: (P(a[1],x)**2) + (P(b[1],x)**2), x) ) / N
-    except:
-        return 0
+    return missclassification(x)
 
-
+#para compreender o acima dito ir à secção de resumo 4 de ref1
 
 
 
@@ -675,13 +687,12 @@ c = contagemDeClasseMultiplasMatrizes(a)
 arvore[1] = [(0,a[0])]
 
 
-print(c)
+#print(c)
 
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
 #print(inpureza_all(c,entropia))
 print(inpureza_all(c,MaxDiffNormalized))
-print(inpureza_all(c,MaxDiffNormalizadoPapel))
 #print(inpureza_all(c,generalized_gini_index))
 
 
