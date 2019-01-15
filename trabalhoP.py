@@ -682,6 +682,12 @@ def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
     atributoMaxGanho = matriz[0][0]
     print('----------------------------' + str(matriz[0]) + str(atributos))
+
+
+    #falha a calcular isto
+
+
+    
     print(funcaoGanho(funcaoImpureza,matriz,atributoMaxGanho))
     for atributo in atributos:
         ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributo)
