@@ -1052,7 +1052,7 @@ def calculaQualidadePrevisao(previsao,real):
     sum = len(real)
     positivos = 0
     for linha in range(len(previsao)):
-        if((int(previsao[linha])) == int(real[linha]) ): 
+        if((int(previsao[linha]) + 4) == int(real[linha]) ): 
             positivos +=1
     return positivos/sum
 
