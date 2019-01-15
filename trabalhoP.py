@@ -110,7 +110,7 @@ if(TIPO):
 # retira todos os valores de uma coluna de uma matriz
 
 def getColumnFromMatrix(coluna,matriz):
-    return list(map(lambda x: x[coluna],matrix[HEADER:]))
+    return list(map(lambda x: x[coluna],matriz[HEADER:]))
 
 
 #dada uma matriz retira uma certa coluna e devolve a nova matriz
@@ -751,18 +751,35 @@ def prunningDeArvore(matriz):
     return False
 
 
+#função auxiliar que dada uma chave coloca na ordem devida
+def makeKeyRight(key):
+    newKey = key
+    if(len(key) == 2):
+        attr = key[0]
+        valattr = key[1]
+        print('HI')
+        print(attr,valattr)
+        if(isinstance(attr,int)):
+            print('sup')
+            attr,valattr = valattr,attr
+        newKey = (attr,valattr)
+        #print(newKey)
+    return newKey
+
+
+
 #função auxiliar que faz "flatten" de um mapa
 
 def flatten_dict(d):
     def expand(key, value):
         if isinstance(value, dict):
             #print('val' + str(value))
-            result = [ (key + k, v) for k, v in flatten_dict(value).items() ]
+            result = [ (key + makeKeyRight(k), v) for k, v in flatten_dict(value).items() ]
             #print('key' + str(key) )
             return result
         else:
-            #print('keyBase' + str(key) )
-            return [ (key, value) ]
+            #print('keyBase' + str(key) + str(makeKeyRight(key)))
+            return [ (makeKeyRight(key), value) ]
 
     items = [ item for k, v in d.items() for item in expand(k, v) ]
 
@@ -934,9 +951,12 @@ def criaArvoreDeDecisão(mapaMatrizes):
 def equalsTreeKeyAndValue(key,dict):
     res = True
     i = 0
+    print(key)
+    #print(dict.keys())
     while i<len(key):
         attr = key[i]
         valattr = key[i+1]
+        print(attr,valattr)
         if(dict[attr] != valattr): 
             res = False
             break
@@ -949,8 +969,8 @@ def equalsTreeKeyAndValue(key,dict):
 
 def criaDictAPartirDeEntrada(entrada,atributos):
     res = {}
-    print( entrada )
-    print(atributos)
+    #print( entrada )
+    #print(atributos)
 
     for coluna in range(len(atributos)):
         res[ atributos[coluna] ] = entrada[coluna]
