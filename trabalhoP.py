@@ -575,7 +575,7 @@ def impurezaAUX(matriz, funcaoImpureza):
     print('@' + str(matriz[0])
               + str(contagemDeClasse( matriz )) 
     )
-    return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
+    return sum(impureza_all( contagemDeClasse( matriz ), funcaoImpureza ))
 
 
 #normaliza para preparar para o cálculo do ganho
