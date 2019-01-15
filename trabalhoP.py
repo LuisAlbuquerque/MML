@@ -646,14 +646,76 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
 
 
 #dada uma percentagem cria a árvore com as percentagem% primeiras entradas dos dados
-#retorna tanto a árvore criada como os outros (100-percentagem)% dos dados
+#retorna tanto a árvore criada com os dados de treino e teste que gerou
 
 def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanho):
     treino,teste = split(matriz,percentagem)
     arvore = calculaArvoreDecisãoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
-    return arvore,teste
+    return arvore,treino,teste
 
 
+
+
+#dada uma matriz retorna o valor de classe com mais instâncias
+
+def getPrevisãoDadaMatriz(matriz):
+    classes = contagemDeClasse(matriz)
+    max = 0
+    maxColuna = clases[classes.keys()[0]]
+    for key in classes.keys():
+        valor = classes[key]
+        if(valor>max): 
+            max = valor
+            maxColuna = key
+    return maxColuna
+
+
+
+
+#dada uma árvore calculada pela função anterior altera-a de modo
+# a que para cada chave tenhamos em vez de matrizes
+# a classe que corresponde a usar as regras na chave
+
+#NOTA: estamos a criar uma árvore discreta, i.e., que retorna um
+#valo concreto da classe
+
+def criaArvoreDeDecisão(mapaMatrizes):
+    arvore = {}
+
+    for key in mapaMatrizes.keys():
+        matrizKey = mapaMatrizes[key]
+        previsaoParaChave = getPrevisãoDadaMatriz(matrizKey)
+        arvore[key] = previsaoParaChave
+
+    return arvore
+
+
+
+#dada uma árvore e uma certa matriz com os atributos(e seus nomes na linha inicial)
+#calcula as previsões feitas pela árvore criada
+def preveDadaArvoreParaMatriz
+
+
+
+#dada uma árvore e dados (de treino e teste)
+#calcula qual a percentagem de previsões bem feitas da árvore de decisão
+
+def calculaQualidadeArvoreDecisao(arvore,treino,teste):
+    #relembrar que a árvore é um dicionário cujas chaves são
+    # tuplo (attr1,valattr1,attr2,valattr2,...), indicando
+    #que a matriz a ela associada corresponde ao ramo
+    #cuja regra é attr1 == valattr1 && attr2 == valattr2 && ...
+
+    #relembrar ainda que os dados de treino e de teste são matrizes
+    #com certos valores que resultaram da divisão do dataset por uma certa
+    #percentagem pela função acima definida,
+    #contendo ainda no final o seu valor de classe
+
+    #efetivamente devemos retirar como qualidade uma das funções que usamos
+    # e a que foi proposta em ref2
+
+    #para tal temos de calcular true positives(a previsão e o real são iguais)
+    #e false positives(a previsão e o real são diferentes)
 
 
 
@@ -692,7 +754,7 @@ arvore[1] = [(0,a[0])]
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
 #print(inpureza_all(c,entropia))
-print(inpureza_all(c,MaxDiffNormalized))
+#print(inpureza_all(c,MaxDiffNormalized))
 #print(inpureza_all(c,generalized_gini_index))
 
 
