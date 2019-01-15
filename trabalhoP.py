@@ -327,19 +327,6 @@ def MaxDiffNormalized(x):
         return 0
 
 
-#MaxDiffNormalizado como no papel ref1
-#relembrar que para cada l em x temos que l[1] é
-#o nº de occorências de um certo valor de classe em x
-
-def MaxDiffNormalizadoPapel(x):
-    N = len(x)
-    try: 
-        return ( max(   list(map(  lambda l:  l[1] - (N - l[1])  ,x)   )  )   ) / N
-    except:
-        return 0    
-
-
-
 
 #generalized gini index
 #proposto no ref1
@@ -688,12 +675,13 @@ c = contagemDeClasseMultiplasMatrizes(a)
 arvore[1] = [(0,a[0])]
 
 
-#print(c)
+print(c)
 
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
 #print(inpureza_all(c,entropia))
 print(inpureza_all(c,MaxDiffNormalized))
+print(inpureza_all(c,MaxDiffNormalizadoPapel))
 #print(inpureza_all(c,generalized_gini_index))
 
 
