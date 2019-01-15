@@ -568,7 +568,7 @@ def ganhoAUX(matriz,funcaoImpureza):
 
 #dado uma matriz, um atributo, uma funcao de inpureza  e um número T
 #retorna o valor do ganho genérico dessa função
-def ganhoGenerico(funcaoImpureza,matriz,atributo,T,D):
+def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
     impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
     resultadoDivisaoPorAtributo = separaMatrizPorNomeAtributo(matriz,atributo)
     nRamos = list(len(Map.keys()))
@@ -578,29 +578,38 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T,D):
     )
     return (impurezaMatriz - impurezaAtributo) / (nRamos**T)
 
+#função que calcula o ganho dado uma funcao de impureza, uma de ganho,
+#uma matriz e um atributo
+def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T):
+    impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
+    resultadoDivisaoPorAtributo = separaMatrizPorNomeAtributo(matriz,atributo)
+    nRamos = list(len(Map.keys()))
+    impurezaAtributo = reduce(
+        lambda x,y: ganhoAUX(Map(x),funcaoImpureza) + ganhoAUX(Map(y),funcaoImpureza), 
+        list(Map.keys())
+    )
+    return funcaoGanho(impurezaMatriz,impurezaAtributo,nRamos,T)
 
-def ganhon(impureza,antes,depois,nramos,n):
-    return (impureza(antes) - impureza(depois))\
-                    / (nramos**n)
+def ganhon(antes,depois,nramos,T):
+    return (antes - depois) / (nramos**T)
 
 # a penalizacao dos ramos e igual tanto se haja 
 # poucos ou muitos ramos
-def ganhoe(impureza,antes,depois,nramos,n):
-    return (impureza(antes) - impureza(depois))\
-                    / (2**nramos)
+def ganhoe(antes,depois,nramos,T):
+    return (antes - depois) / (nramos**2)
 
 # penaliza mais quantos mais ramos houverem
-def ganho(impureza,antes,depois,nramos):
-    return ganhon(impureza,antes,depois,nramos,1)
+def ganho(antes,depois,nramos,T):
+    return ganhon(antes,depois,nramos,1)
 
 # funcao geral que calcula a funcao de ganho, dado uma
 # funcao que calcula o gnaho
-def funcaoGanho(f,matriz,atributo,fg):
-    antes = impurezaAUX(matriz,f)
-    Map = separaMatrizPorNomeAtributo(matriz,atributo)
-    nramos = list(len(Map.keys()))
-    depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys()))
-    return fg(f,antes,depois,nramos) 
+#def funcaoGanho(f,matriz,atributo,fg):
+#    antes = impurezaAUX(matriz,f)
+#    Map = separaMatrizPorNomeAtributo(matriz,atributo)
+#    nramos = list(len(Map.keys()))
+#    depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys()))
+#    return fg(f,antes,depois,nramos) 
 
 
 
