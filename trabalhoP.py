@@ -96,6 +96,14 @@ def getColumnFromMatrix(coluna,matriz):
     return list(map(lambda x: x[index],matrix[HEADER:]))
 
 
+#dada uma matriz retira uma certa coluna e devolve a nova matriz
+def retiraColunaDeMatrizPorColuna(matriz,coluna):
+    resultado = []
+    for linha in len(matriz):
+        retirado = matriz[linha][coluna]
+        resultado.append( linha.remove(retirado) )
+    return resultado
+
 
 # Calcula todas as possiblidades de valores
 # para uma determinada coluna
@@ -690,10 +698,62 @@ def criaArvoreDeDecisão(mapaMatrizes):
     return arvore
 
 
+#dada uma chave da árvore e um dicionário correspondente a um registo,
+#calcula se correspondem, retornando True se for verdade e False caso contrário
+
+#nota: o dicionário é de tal modo que {atrr1: valattr1, attr2: valattr2,....}
+
+
+def equalsTreeKeyAndValue(key,dict):
+    res = True
+    i = 0
+    while i<len(key):
+        attr = key[i]
+        valattr = key[i+1]
+        if(dict[attr] != valattr): 
+            res = False
+            break
+        i = i+2
+    return res
+
+#função que dada uma entrada e os atributos
+#cria um dicionário que associa a cada registo o nome do atributo e o seu valor
+#assume que a entrada já não tem classe associada
+
+def criaDictAPartirDeEntrada(entrada,atributos):
+    res = {}
+
+    for coluna in len(coluna):
+        res[ atributos[coluna] ] = entrada[coluna]
+
+    return res
+
+
 
 #dada uma árvore e uma certa matriz com os atributos(e seus nomes na linha inicial)
 #calcula as previsões feitas pela árvore criada
-def preveDadaArvoreParaMatriz
+
+#ATENÇÃo: como as chaves têm uma ordem que não podemos adivinhar,
+#temos de comparar com auxilio de uma função auxiliar(ver acima)
+
+#nota: retorna um mapa entre as linhas da matriz e a sua previsão
+
+def preveDadaArvoreParaMatriz(arvore, matriz):
+    arvoreProcesada = criaArvoreDeDecisão(arvore)
+
+    previsao = {}
+
+    atributos = retiraColunaDeMatrizPorColuna(matriz,RESULTADO)
+
+    for linha in len(atributos):
+        dictMatriz = criaDictAPartirDeEntrada(atributos[linha])
+        
+        for key in arvoreProcesada:
+            if(equalsTreeKeyAndValue(key, dictMatriz)):
+                previsao[linha] = arvoreProcesada[key]
+                break
+
+    return previsao
 
 
 
