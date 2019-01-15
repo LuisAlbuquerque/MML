@@ -737,11 +737,12 @@ def criaDictAPartirDeEntrada(entrada,atributos):
 #temos de comparar com auxilio de uma função auxiliar(ver acima)
 
 #nota: retorna um mapa entre as linhas da matriz e a sua previsão
+# de tal modo que previsão[i] é a previsão correspondente a matriz[i]
 
 def preveDadaArvoreParaMatriz(arvore, matriz):
     arvoreProcesada = criaArvoreDeDecisão(arvore)
 
-    previsao = {}
+    previsao = []
 
     atributos = retiraColunaDeMatrizPorColuna(matriz,RESULTADO)
 
@@ -750,7 +751,7 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
         
         for key in arvoreProcesada:
             if(equalsTreeKeyAndValue(key, dictMatriz)):
-                previsao[linha] = arvoreProcesada[key]
+                previsao.append(arvoreProcesada[key])
                 break
 
     return previsao
