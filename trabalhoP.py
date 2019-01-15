@@ -541,23 +541,7 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
         
     return resultado
 
-
-
-
-
-
-
 # ----- funcoes de ganho -----
-
-
-#funcao genérica para ganho
-#que dada uma funcao de impureza, uma matriz, um atributo e 2 valores inteiros T e R
-#retorna o ganho da separação da matriz pelo atributo com base em T e R
-
-def ganhoGenerico(funcaoImpureza,matriz,atributo,T,R):
-
-
-
 
 def ganhon(impureza,antes,depois,nramos,n):
     return (impureza(antes) - impureza(depois))\
@@ -579,23 +563,27 @@ def impurezaAUX(matriz, funcaoImpureza):
 def ganhoAUX(matriz,funcaoImpureza):
     return len(matriz)*impurezaAUX(matriz,funcaoImpureza)
 
-def funcaoGanho(f,matriz,atributo):
+# funcao geral que calcula a funcao de ganho, dado uma
+# funcao que calcula o gnaho
+def funcaoGanho(f,matriz,atributo,fg):
     antes = impurezaAUX(matriz,f)
     Map = separaMatrizPorNomeAtributo(matriz,atributo)
     nramos = list(len(Map.keys()))
-    depois = reduce(lambda x,y: ganhoAUX(Map[x],f) + ganhoAUX(Map[y],f), list(Map.keys())
-    return ganho(f,antes,depois,nramos) 
+    depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys()))
+    return fg(f,antes,depois,nramos) 
 
+# funcoes de ganho para serem chamadas
+
+def funcaoGanhon(f,matriz,atributo):
+    return funcaoGanho(f,matriz,atributo,ganhon)
+
+def funcaoGanhoe(f,matriz,atributo):
+    return funcaoGanho(f,matriz,atributo,ganhoe)
+
+def funcaoGanho_(f,matriz,atributo):
+    return funcaoGanho(f,matriz,atributo,ganho)
 
 # ----------------------------
-
-
-
-
-
-
-
-
 
 #Dada a matriz a dividir, os atributos que falta dividir por
 #e as funções de impureza e de ganho a usar, 
@@ -716,9 +704,6 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
     treino,teste = split(matriz,percentagem)
     arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
     return arvore,treino,teste
-
-
-
 
 
 
