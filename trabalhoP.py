@@ -649,7 +649,7 @@ def ganho(antes,depois,nramos,T):
 # funcoes de ganho para serem chamadas
 
 def funcaoGanhon(f,matriz,atributo):
-    print('ff' + str(matriz[0]))
+    #print('ff' + str(matriz[0]))
     return ganhoGenericoFunc(f,matriz,atributo,ganhon,1)
 
 def funcaoGanhoe(f,matriz,atributo):
@@ -697,7 +697,7 @@ def funcaoGanho_(f,matriz,atributo):
 def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
     atributoMaxGanho = matriz[0][0]
-    print('----------------------------' + str(matriz[0]) + str(atributos))
+    #print('----------------------------' + str(matriz[0]) + str(atributos))
 
 
     #falha a calcular isto
@@ -747,7 +747,7 @@ def prunningDeArvore(matriz):
 
 def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
-    print('MA' + str(matriz[0]))
+    #print('MA' + str(matriz[0]))
 
     if( (not atributos) or (prunningDeArvore(matriz)) ):
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
@@ -804,6 +804,7 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
     treino,teste = split(matriz,percentagem)
     atributos = matriz[0][:RESULTADO]
     arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho)
+    print(arvore.keys())
     return arvore,treino,teste
 
 
@@ -969,6 +970,8 @@ def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent):
             arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
                 matriz,percent,funcImp,funcGan
             )
+            #print( isinstance(arvore,dict) )
+            #print( arvore.keys())
             qTreino,qTeste=calculaQualidadeArvoreDecisao(arvore,treino,teste)
             resultados.append((qTreino,qTeste)) 
     return resultados
