@@ -110,7 +110,7 @@ if(TIPO):
 # retira todos os valores de uma coluna de uma matriz
 
 def getColumnFromMatrix(coluna,matriz):
-    return list(map(lambda x: x[coluna-1],matriz))
+    return list(map(lambda x: x[coluna-,matriz))
 
 
 #dada uma matriz retira uma certa coluna e devolve a nova matriz
@@ -1074,7 +1074,6 @@ def calculaQualidadePrevisaoMatriz(arvore,matriz):
     #print(mat[0])
     mat.pop(0)
     real = getColumnFromMatrix(RESULTADO,mat)
-    print(real)
     return calculaQualidadePrevisao(previsao,real)
 
 
