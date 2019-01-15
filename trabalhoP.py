@@ -555,6 +555,30 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
 
 # ----- funcoes de ganho -----
 
+#calcula a impureza de uma matriz dada uma função de inpureza
+
+def impurezaAUX(matriz, funcaoImpureza):
+    return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
+
+
+
+def ganhoAUX(matriz,funcaoImpureza):
+    return len(matriz)*impurezaAUX(matriz,funcaoImpureza)
+
+
+#dado uma matriz, um atributo, uma funcao de inpureza  e um número T
+#retorna o valor do ganho genérico dessa função
+def ganhoGenerico(funcaoImpureza,matriz,atributo,T,D):
+    impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
+    resultadoDivisaoPorAtributo = separaMatrizPorNomeAtributo(matriz,atributo)
+    nRamos = list(len(Map.keys()))
+    impurezaAtributo = reduce(
+        lambda x,y: ganhoAUX(Map[x],funcaoImpureza) + ganhoAUX(Map[y],funcaoImpureza), 
+        list(Map.keys())
+    )
+    return (impurezaMatriz - impurezaAtributo) / (nRamos**T)
+
+
 def ganhon(impureza,antes,depois,nramos,n):
     return (impureza(antes) - impureza(depois))\
                     / (nramos**n)
@@ -568,12 +592,6 @@ def ganhoe(impureza,antes,depois,nramos,n):
 # penaliza mais quantos mais ramos houverem
 def ganho(impureza,antes,depois,nramos):
     return ganhon(impureza,antes,depois,nramos,1)
-
-def impurezaAUX(matriz, funcaoImpureza):
-    return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
-
-def ganhoAUX(matriz,funcaoImpureza):
-    return len(matriz)*impurezaAUX(matriz,funcaoImpureza)
 
 # funcao geral que calcula a funcao de ganho, dado uma
 # funcao que calcula o gnaho
