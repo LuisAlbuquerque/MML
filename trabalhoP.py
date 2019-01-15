@@ -790,7 +790,7 @@ def calculaQualidadePrevisao(previsao,real):
 #Nota 2: assume que a árvore ainda não foi alterada para ter previsoes associadas ás suas chaves
 #e que a matriz que lhe é passada ainda tem a classe associada
 
-def caculaQualidadePrevisaoMatriz(arvore,matriz):
+def calculaQualidadePrevisaoMatriz(arvore,matriz):
     previsao = preveDadaArvoreParaMatriz(arvore,matriz)
     real = getColumnFromMatrix(RESULTADO,matriz)[HEADER:]
     return calculaQualidadePrevisao(previsao,real)
@@ -808,12 +808,12 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
     #relembrar ainda que os dados de treino e de teste são matrizes
     #com certos valores que resultaram da divisão do dataset por uma certa
     #percentagem pela função acima definida,
-    #contendo ainda no final o seu valor de classe
+    #contendo ainda no final o seu valor de classe e nomes de atributos
 
     #efetivamente devemos retirar como qualidade uma das funções que usamos
     # e a que foi proposta em ref2
 
-    return caculaQualidadePrevisaoMatriz(arvore,treino),caculaQualidadePrevisaoMatriz(arvore,teste)
+    return calculaQualidadePrevisaoMatriz(arvore,treino),calculaQualidadePrevisaoMatriz(arvore,teste)
 
 
 
