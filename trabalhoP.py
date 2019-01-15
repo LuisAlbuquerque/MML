@@ -680,6 +680,8 @@ arvore[1] = [(0,a[0])]
 #print(inpureza_all(c,gini_index))
 #print(inpureza_all(c,missclassification))
 #print(inpureza_all(c,entropia))
+#print(inpureza_all(c,MaxDiffNormalized))
+#print(inpureza_all(c,generalized_gini_index))
 
 
 #print(contagemDeClasse(data))
