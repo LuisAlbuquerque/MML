@@ -559,7 +559,7 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
         resultado[tuplo] = mapaMatrizes
     
     #print('adCHRes' + str(resultado[tuplo][0]))
-    print(resultado.keys())
+    #print(''  resultado.keys())
     return resultado
 
 
@@ -740,15 +740,30 @@ def flatten_dict(d):
     def expand(key, value):
         if isinstance(value, dict):
             #print('val' + str(value))
-            return [ (key + k, v) for k, v in flatten_dict(value).items() ]
+            result = [ (key + k, v) for k, v in flatten_dict(value).items() ]
+            #print('key' + str(key) )
+            return result
         else:
+            #print('keyBase' + str(key) )
             return [ (key, value) ]
 
     items = [ item for k, v in d.items() for item in expand(k, v) ]
 
+    #print( '\n\nfirstFromList\n\n' + str(items[0]))
+
     return dict(items)
 
 
+#função auxilixar que retira chaves que tenham valores repetidos
+#de atriibutos
+
+def uniqueAtributeForKeys(arvore):
+    res = {}
+    for key in arvore:
+        newKey = tuple(list(set(key)))
+        #print(newKey)
+        res[newKey] = arvore[key]
+    return res
 
     
 #função que dada uma matriz, seus atributos e 2 funções(impureza e ganho) 
@@ -822,7 +837,7 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
         #nota: no final termos um mapa onde
         #a sua chave terá a forma (attr1,valattr1,attr2,valattr2,....)
         #que corresponderá às regras de criação de dita separação
-        return flatten_dict(arvore)
+        return uniqueAtributeForKeys(flatten_dict(arvore))
 
 
 
