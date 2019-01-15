@@ -1074,11 +1074,12 @@ def calculaQualidadePrevisaoMatriz(arvore,matriz):
             auxiliar.append(matriz[val][value])
         mataux.append(auxiliar)
     print(mataux[0])
-    previsao = preveDadaArvoreParaMatriz(arvore,matriz)
+    print(mataux == matriz)
+    previsao = preveDadaArvoreParaMatriz(arvore,mataux)
     print(mataux[0])
     mataux.pop(0)
     print(mataux[0])
-    real = getColumnFromMatrix(RESULTADO,mataux)
+    real = getColumnFromMatrix(RESULTADO,matriz)
     return calculaQualidadePrevisao(previsao,real)
 
 
@@ -1108,7 +1109,7 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
 # calcula a árvore de derivação e retorna a sua qualidade
 
 def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent):
-    resultados = {}
+    resultados = []
     for funcImp in funcoesImpureza:
         for funcGan in funcoesGanho:
             arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
