@@ -1067,7 +1067,6 @@ def calculaQualidadePrevisao(previsao,real):
 #e que a matriz que lhe é passada ainda tem a classe associada
 
 def calculaQualidadePrevisaoMatriz(arvore,matriz):
-    print(matriz[0])
     mataux = []
     for val in range(len(matriz)):
         auxiliar = []
