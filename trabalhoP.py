@@ -1073,12 +1073,12 @@ def calculaQualidadePrevisaoMatriz(arvore,matriz):
         for value in range(len(matriz[val])):
             auxiliar.append(matriz[val][value])
         mataux.append(auxiliar)
-    print(mataux[0])
-    print(mataux == matriz)
+    #print(mataux[0])
+    #print(mataux == matriz)
     previsao = preveDadaArvoreParaMatriz(arvore,mataux)
-    print(mataux[0])
+    #print(mataux[0])
     mataux.pop(0)
-    print(mataux[0])
+    #print(mataux[0])
     real = getColumnFromMatrix(RESULTADO,matriz)
     return calculaQualidadePrevisao(previsao,real)
 
