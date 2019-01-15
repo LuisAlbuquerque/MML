@@ -582,7 +582,7 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
 #uma matriz e um atributo
 def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T):
     impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
-    resultadoDivisaoPorAtributo = separaMatrizPorNomeAtributo(matriz,atributo)
+    Map = separaMatrizPorNomeAtributo(matriz,atributo)
     nRamos = list(len(Map.keys()))
     impurezaAtributo = reduce(
         lambda x,y: ganhoAUX(Map(x),funcaoImpureza) + ganhoAUX(Map(y),funcaoImpureza), 
