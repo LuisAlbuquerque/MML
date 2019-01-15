@@ -567,16 +567,16 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
     #caso geral: mapaMatrizes é um mapa de matrizes
     if(isinstance(mapaMatrizes,dict)):
         #print('MapCas')
-        print("WAT" + str(mapaMatrizes.keys()))
+        #print("WAT" + str(mapaMatrizes.keys()))
         for key in mapaMatrizes.keys():
-            print('beforeGen' + str(key) + 'test' + str(makeKeyRight(key)))
+            #print('beforeGen' + str(key) + 'test' + str(makeKeyRight(key)))
             newKey = key + tuplo
-            print('keyGen' + str(newKey))
+            #print('keyGen' + str(newKey))
             resultado[newKey] = mapaMatrizes[key]
     #caso de paragem: mapaMatrizes é uma matriz
     else:
         #print('regularCas')
-        print(str(tuplo))
+        #print(str(tuplo))
         resultado[tuplo] = mapaMatrizes
     
     #print('adCHRes' + str(resultado[tuplo][0]))
@@ -788,13 +788,13 @@ def makeKeyRight(key):
 def flatten_dict(d):
     def expand(key, value):
         if isinstance(value, dict):
-            print('key' + str(key))
+            #print('key' + str(key))
             result = [ (key + k, v) for k, v in flatten_dict(value).items() ]
             #print('key' + str(key) )
             return result
         else:
-            print('keyBase' + str(key) + str(makeKeyRight(key)))
-            return [ (makeKeyRight(key), value) ]
+            #print('keyBase' + str(key) + str(makeKeyRight(key)))
+            return [ (key, value) ]
 
     items = [ item for k, v in d.items() for item in expand(k, v) ]
 
@@ -803,13 +803,22 @@ def flatten_dict(d):
     return dict(items)
 
 
+#func aux
+
+def semRep(tuplo):
+    res = []
+    for x in tuplo:
+        if x not in res:
+            res.append(x)
+    return tuple(res)
+
 #função auxilixar que retira chaves que tenham valores repetidos
 #de atriibutos
 
 def uniqueAtributeForKeys(arvore):
     res = {}
     for key in arvore:
-        newKey = tuple(list(set(key)))
+        newKey = semRep(key)
         #print(newKey)
         res[newKey] = arvore[key]
     return res
@@ -851,7 +860,7 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
         novosAtributos = atributos
         novosAtributos.remove(atributo)
         
-        print('attr2' + str(novosAtributos) + str(atributo))
+        #print('attr2' + str(novosAtributos) + str(atributo))
         #isto abaixo precisa de alguma explicação:
         #isto é uma função recursiva
         #o que estamos a fazer é em cada passo escolhemos um atributo,
@@ -970,12 +979,12 @@ def criaArvoreDeDecisão(mapaMatrizes):
 def equalsTreeKeyAndValue(key,dict):
     res = True
     i = 0
-    print(key)
+    #print(key)
     #print(dict.keys())
     while i<len(key):
         attr = key[i]
         valattr = key[i+1]
-        print(attr,valattr)
+        #print(attr,valattr)
         if(dict[attr] != valattr): 
             res = False
             break
@@ -1058,7 +1067,11 @@ def calculaQualidadePrevisao(previsao,real):
 #e que a matriz que lhe é passada ainda tem a classe associada
 
 def calculaQualidadePrevisaoMatriz(arvore,matriz):
+    print('hi' + str(matriz[0]))
+    mat = matriz
     previsao = preveDadaArvoreParaMatriz(arvore,matriz)
+    print(matriz[0])
+    print(mat==matriz)
     real = getColumnFromMatrix(RESULTADO,matriz)[HEADER:]
     return calculaQualidadePrevisao(previsao,real)
 
@@ -1079,6 +1092,8 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
 
     #efetivamente devemos retirar como qualidade uma das funções que usamos
     # e a que foi proposta em ref2
+    print(treino[0])
+    print(teste[0])
 
     return calculaQualidadePrevisaoMatriz(arvore,treino),calculaQualidadePrevisaoMatriz(arvore,teste)
 
