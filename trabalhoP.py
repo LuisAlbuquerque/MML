@@ -750,20 +750,29 @@ def prunningDeArvore(matriz):
             return True
     return False
 
+#função auxiliar necessária para testar
+
+def isfloat(value):
+  try:
+    float(value)
+    return True
+  except ValueError:
+    return False
 
 #função auxiliar que dada uma chave coloca na ordem devida
 def makeKeyRight(key):
     newKey = key
-    print(key,len(key))
+    #print(key,len(key))
     for pair in range(int(len(key)/2)):
         attr = key[ 2 * pair]
         valattr = key[2 * pair + 1]
-        print(attr,valattr)
-        if(isinstance(attr,int)):
-            print('sup')
+        #print(attr,valattr)
+        #print(type(attr),type(valattr))
+        if(isfloat(attr)):
+            #print('sup')
             newAttr,newValattr = valattr,attr
             newKey = (newAttr,newValattr)
-            print(newKey)
+            #print(newKey)
     return newKey
 
 
@@ -773,12 +782,12 @@ def makeKeyRight(key):
 def flatten_dict(d):
     def expand(key, value):
         if isinstance(value, dict):
-            #print('val' + str(value))
-            result = [ (key + makeKeyRight(k), v) for k, v in flatten_dict(value).items() ]
+            print('key' + str(key))
+            result = [ (key + k, v) for k, v in flatten_dict(value).items() ]
             #print('key' + str(key) )
             return result
         else:
-            #print('keyBase' + str(key) + str(makeKeyRight(key)))
+            print('keyBase' + str(key) + str(makeKeyRight(key)))
             return [ (makeKeyRight(key), value) ]
 
     items = [ item for k, v in d.items() for item in expand(k, v) ]
