@@ -449,6 +449,7 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     resultado = matriz[0]
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
+    print("HAHA" + str(resultado[0]) + str(matriz[0][0]))
     return resultado
 
 
@@ -474,9 +475,12 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
 #os valores únicos do atributo(e seu nome) e a divisão que lhe foi feita
 
 def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
+    print('TEG' + str(matriz[0]) )
+    mat = matriz
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = {}
     for valor in valoresUnicosColuna:
+        print('TEG2' + str(mat == matriz) )
         resultado[(atributo,valor)] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
     return resultado
 
@@ -492,11 +496,13 @@ def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
 
 def separaMatrizPorNomeAtributo(matriz,atributo):
     atributos = matriz[0][:RESULTADO]
+    print('SEP' + str(atributos) + atributo + str(matriz[0]))
     coluna = 0
     for atrAux in range(len(atributos)):
         if(atributos[atrAux] == atributo): 
             coluna = atrAux
             break
+    print('SEP2' + str(atributos) + atributo + str(matriz[0]))
 
     #retorna um mapa que a cada valor único do atributo e seu nome
     #associa a matriz que lhe está associada
@@ -580,7 +586,7 @@ def ganhoAUX(matriz,funcaoImpureza,N):
 def calcImpurezaAtributo(Map,funcaoImpureza,N):
     resultado = 0
     for key in Map:
-        print('kk' + str(list(Map.keys())[0][0] ) + str(key) + str(Map[key][0]))
+        print('kk' + str(list(Map.keys())[0] ) + str(key) + str(Map[key][1]))
         resultado += ganhoAUX(Map[key],funcaoImpureza,N)
     return resultado
 
@@ -603,7 +609,7 @@ def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
     Map = separaMatrizPorNomeAtributo(mat,atributo)
     print('MMM' 
             + str(atributo) 
-            + str(matriz) 
+            + str(matriz[0][0]) 
             + str(mat == matriz) 
             + str(Map[ list(Map.keys())[0] ][0])
     )
