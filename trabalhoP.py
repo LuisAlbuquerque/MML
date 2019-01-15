@@ -116,7 +116,7 @@ def retiraColunaDeMatrizPorColuna(matriz,coluna):
 #e coloca numa lista todos os valores dela que sejam únicos
 
 def getColumnUniqueFromMatrix(index,matrix):
-    print( '!' + str(matrix[0]) + str(index) )
+    #print( '!' + str(matrix[0]) + str(index) )
     return list(set(map(lambda x: x[index],matrix[HEADER:])))
 
 
@@ -380,7 +380,7 @@ def generalized_gini_index(x):
 
 def impureza_all(lista, fun):
 
-    print('//' + str(lista))
+    #print('//' + str(lista))
 
     return list(map(lambda x: fun(x),lista))
 
@@ -450,7 +450,7 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
     resultado.append(matriz[0])
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
-    print("HAHA" + str(resultado[0]) + str(matriz[0][0]))
+    #print("HAHA" + str(resultado[0]) + str(matriz[0][0]))
     return resultado
 
 
@@ -476,14 +476,14 @@ def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
 #os valores únicos do atributo(e seu nome) e a divisão que lhe foi feita
 
 def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
-    print('TEG' + str(matriz[0]) )
+    #print('TEG' + str(matriz[0]) )
     mat = matriz
     valoresUnicosColuna = getColumnUniqueFromMatrix(coluna,matriz)
     resultado = {}
     for valor in valoresUnicosColuna:
-        print('TEG2' + str(mat == matriz) + str(valor) )
+        #print('TEG2' + str(mat == matriz) + str(valor) )
         resultado[(atributo,valor)] = retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor)
-        print('TEG3' + str(mat==matriz) + str(valor) + str(resultado[(atributo,valor)]) )
+        #print('TEG3' + str(mat==matriz) + str(valor) + str(resultado[(atributo,valor)]) )
     return resultado
 
 
@@ -498,13 +498,13 @@ def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
 
 def separaMatrizPorNomeAtributo(matriz,atributo):
     atributos = matriz[0][:RESULTADO]
-    print('SEP' + str(atributos) + atributo + str(matriz[0]))
+    #print('SEP' + str(atributos) + atributo + str(matriz[0]))
     coluna = 0
     for atrAux in range(len(atributos)):
         if(atributos[atrAux] == atributo): 
             coluna = atrAux
             break
-    print('SEP2' + str(atributos) + atributo + str(matriz[0]))
+    #print('SEP2' + str(atributos) + atributo + str(matriz[0]))
 
     #retorna um mapa que a cada valor único do atributo e seu nome
     #associa a matriz que lhe está associada
@@ -572,9 +572,9 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
 
 
 def impurezaAUX(matriz, funcaoImpureza):
-    print('@' + str(matriz[0])
-              + str(contagemDeClasse( matriz )) 
-    )
+    #print('@' + str(matriz[0])
+    #          + str(contagemDeClasse( matriz )) 
+    #)
     return sum(impureza_all( contagemDeClasse( matriz ), funcaoImpureza ))
 
 
@@ -588,7 +588,7 @@ def ganhoAUX(matriz,funcaoImpureza,N):
 def calcImpurezaAtributo(Map,funcaoImpureza,N):
     resultado = 0
     for key in Map:
-        print('kk' + str(list(Map.keys())[0] ) + str(key) + str(Map[key][1]))
+        #print('kk' + str(list(Map.keys())[0] ) + str(key) + str(Map[key][1]))
         resultado += ganhoAUX(Map[key],funcaoImpureza,N)
     return resultado
 
@@ -605,16 +605,16 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
 #função que calcula o ganho dado uma funcao de impureza, uma de ganho,
 #uma matriz e um atributo
 def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
-    print('KL' + str(matriz[0]))
+    #print('KL' + str(matriz[0]))
     mat = matriz
     impurezaMatriz = impurezaAUX(mat,funcaoImpureza)
     Map = separaMatrizPorNomeAtributo(mat,atributo)
-    print('MMM' 
-            + str(atributo) 
-            + str(matriz[0][0]) 
-            + str(mat == matriz) 
-            + str(Map[ list(Map.keys())[0] ][0])
-    )
+    #print('MMM' 
+    #        + str(atributo) 
+    #        + str(matriz[0][0]) 
+    #        + str(mat == matriz) 
+    #        + str(Map[ list(Map.keys())[0] ][0])
+    #)
     nRamos = len(Map.keys())
     impurezaAtributo = calcImpurezaAtributo(Map,funcaoImpureza,len(matriz))
     return funcaoGanho(impurezaMatriz,impurezaAtributo,nRamos,T)
