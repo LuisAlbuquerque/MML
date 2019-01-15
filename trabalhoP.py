@@ -117,9 +117,9 @@ def getColumnFromMatrix(coluna,matriz):
 def retiraColunaDeMatrizPorColuna(matriz,coluna):
     resultado = []
     for linha in range(len(matriz)):
-        retirado = matriz[linha][coluna]
         linhadaMatriz = matriz[linha]
-        resultado.append( linhadaMatriz.remove(retirado) )
+        linhadaMatriz.pop(coluna)
+        resultado.append( linhadaMatriz )
     return resultado
 
 
@@ -974,9 +974,9 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
     arvoreProcesada = criaArvoreDeDecisão(arvore)
 
     previsao = []
-    print(matriz)
+    #print(matriz)
     atributos = retiraColunaDeMatrizPorColuna(matriz,RESULTADO)
-    print(atributos)
+    #print(atributos)
 
     atributosSemHeader = atributos[HEADER:]
 
