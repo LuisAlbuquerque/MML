@@ -57,6 +57,7 @@ TIPO = 0 # regrressao
 
 HEADER = 1 # se tem uma linha com identificadores de coluna
 #HEADER = 0 # caso nao tenha
+
 # --------------
 
 
@@ -93,13 +94,13 @@ if(TIPO):
 # retira todos os valores de uma coluna de uma matriz
 
 def getColumnFromMatrix(coluna,matriz):
-    return list(map(lambda x: x[index],matrix[HEADER:]))
+    return list(map(lambda x: x[coluna],matrix[HEADER:]))
 
 
 #dada uma matriz retira uma certa coluna e devolve a nova matriz
 def retiraColunaDeMatrizPorColuna(matriz,coluna):
     resultado = []
-    for linha in len(matriz):
+    for linha in range(len(matriz)):
         retirado = matriz[linha][coluna]
         resultado.append( linha.remove(retirado) )
     return resultado
@@ -115,6 +116,7 @@ def retiraColunaDeMatrizPorColuna(matriz,coluna):
 #e coloca numa lista todos os valores dela que sejam únicos
 
 def getColumnUniqueFromMatrix(index,matrix):
+    print( '!' + str(matrix[0]) + str(index) )
     return list(set(map(lambda x: x[index],matrix[HEADER:])))
 
 
@@ -377,6 +379,9 @@ def generalized_gini_index(x):
 # da função fun
 
 def impureza_all(lista, fun):
+
+    print('//' + str(lista))
+
     return list(map(lambda x: fun(x),lista))
 
 
@@ -436,12 +441,12 @@ def separa_all(listaMatrizes,ind):
 #retorna as linhas da matriz cujo valor em dada coluna é
 #igual ao valor dado
 
-#Nota Ezequiel: assume que a matriz contém os atributos em HEADERS
+#Nota Ezequiel: assume que a matriz contém os atributos em HEADER
 
 
 def retiraLinhasDaMatrizPorValorEmColuna(matriz,coluna,valor):
-    matrizSemAtributos = matriz[HEADERS:]
-    resultado = matriz[HEADER]
+    matrizSemAtributos = matriz[HEADER:]
+    resultado = matriz[0]
     for linha in matrizSemAtributos:
         if(linha[coluna] == valor): resultado.append(linha)
     return resultado
@@ -486,9 +491,9 @@ def separaMatrizPorColunaAtributoMapa(matriz,atributo,coluna):
 #mas retorna um mapa
 
 def separaMatrizPorNomeAtributo(matriz,atributo):
-    atributos = matriz[HEADER][:RESULTADO]
+    atributos = matriz[0][:RESULTADO]
     coluna = 0
-    for atrAux in len(atributos):
+    for atrAux in range(len(atributos)):
         if(atributos[atrAux] == atributo): 
             coluna = atrAux
             break
@@ -557,25 +562,36 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
 
 #calcula a impureza de uma matriz dada uma função de inpureza
 
+
 def impurezaAUX(matriz, funcaoImpureza):
+    print('@' + str(matriz[0])
+              + str(contagemDeClasse( matriz )) 
+    )
     return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
 
 
+#normaliza para preparar para o cálculo do ganho
 
-def ganhoAUX(matriz,funcaoImpureza):
-    return len(matriz)*impurezaAUX(matriz,funcaoImpureza)
+def ganhoAUX(matriz,funcaoImpureza,N):
+    return ( len(matriz) / N )*impurezaAUX(matriz,funcaoImpureza)
+
+#serve apra calcular a impureza dada o mapa de matrizes e a função
+#porque aparentemente mapas não podem ser chamados em reduces
+def calcImpurezaAtributo(Map,funcaoImpureza,N):
+    resultado = 0
+    for key in Map:
+        print('kk' + str(list(Map.keys())[0][0] ) + str(key) + str(Map[key][0]))
+        resultado += ganhoAUX(Map[key],funcaoImpureza,N)
+    return resultado
 
 
 #dado uma matriz, um atributo, uma funcao de inpureza  e um número T
 #retorna o valor do ganho genérico dessa função
 def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
     impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
-    resultadoDivisaoPorAtributo = separaMatrizPorNomeAtributo(matriz,atributo)
-    nRamos = list(len(Map.keys()))
-    impurezaAtributo = reduce(
-        lambda x,y: ganhoAUX(Map(x),funcaoImpureza) + ganhoAUX(Map(y),funcaoImpureza), 
-        list(Map.keys())
-    )
+    Map = separaMatrizPorNomeAtributo(matriz,atributo)
+    nRamos = len(Map.keys())
+    impurezaAtributo = calcImpurezaAtributo(Map,funcaoImpureza,len(matriz))
     return (impurezaMatriz - impurezaAtributo) / (nRamos**T)
 
 #função que calcula o ganho dado uma funcao de impureza, uma de ganho,
@@ -583,11 +599,9 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
 def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
     impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
     Map = separaMatrizPorNomeAtributo(matriz,atributo)
-    nRamos = list(len(Map.keys()))
-    impurezaAtributo = reduce(
-        lambda x,y: ganhoAUX(Map(x),funcaoImpureza) + ganhoAUX(Map(y),funcaoImpureza), 
-        list(Map.keys())
-    )
+    print('MMM' + str(atributo) + str(matriz[0][0])  + str(Map[ list(Map.keys())[0] ][0]))
+    nRamos = len(Map.keys())
+    impurezaAtributo = calcImpurezaAtributo(Map,funcaoImpureza,len(matriz))
     return funcaoGanho(impurezaMatriz,impurezaAtributo,nRamos,T)
 
 
@@ -666,8 +680,9 @@ def funcaoGanho_(f,matriz,atributo):
 
 def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
-    atributoMaxGanho = matriz[HEADER][0]
-
+    atributoMaxGanho = matriz[0][0]
+    print('----------------------------' + str(matriz[0]) + str(atributos))
+#funcaoGanho_(f,matriz,atributo)
     for atributo in atributos:
         ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributo)
         if(ganhoAtributo>maxGanho):
@@ -761,7 +776,7 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
 
 def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanho):
     treino,teste = split(matriz,percentagem)
-    atributos = matriz[HEADER][:RESULTADO]
+    atributos = matriz[0][:RESULTADO]
     arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho)
     return arvore,treino,teste
 
@@ -773,7 +788,7 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
 def getPrevisãoDadaMatriz(matriz):
     classes = contagemDeClasse(matriz)
     max = 0
-    maxColuna = clases[classes.keys()[0]]
+    maxColuna = clases[list(classes.keys())[0]]
     for key in classes.keys():
         valor = classes[key]
         if(valor>max): 
@@ -827,7 +842,7 @@ def equalsTreeKeyAndValue(key,dict):
 def criaDictAPartirDeEntrada(entrada,atributos):
     res = {}
 
-    for coluna in len(coluna):
+    for coluna in range(len(coluna)):
         res[ atributos[coluna] ] = entrada[coluna]
 
     return res
@@ -854,8 +869,8 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 
     atributosSemHeader = atributos[HEADER:]
 
-    for linha in len(atributosSemHeader):
-        dictMatriz = criaDictAPartirDeEntrada(atributos[linha], atributos[HEADER])
+    for linha in range(len(atributosSemHeader)):
+        dictMatriz = criaDictAPartirDeEntrada(atributos[linha], atributos[0])
         
         for key in arvoreProcesada:
             if(equalsTreeKeyAndValue(key, dictMatriz)):
@@ -875,7 +890,7 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 def calculaQualidadePrevisao(previsao,real):
     sum = len(real)
     positivos = 0
-    for linha in len(previsao):
+    for linha in range(len(previsao)):
         if(previsao[linha] == real[linha]): positivos +=1
     return positivos/sum
 
@@ -926,7 +941,7 @@ def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent):
     for funcImp in funcoesImpureza:
         for funcGan in funcoesGanho:
             arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
-                matriz,percent,funcaoImpureza,funcaoGanho
+                matriz,percent,funcImp,funcGan
             )
             qTreino,qTeste=calculaQualidadeArvoreDecisao(arvore,treino,teste)
             resultados.append((qTreino,qTeste)) 
@@ -989,4 +1004,14 @@ arvore[1] = [(0,a[0])]
 #ganhos atuais
 #funcaoGanhon,funcaoGanhoe,funcaoGanho_
 
-#print( testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent) )
+matriz = data
+funcoesImpureza = [gini_index,missclassification,entropia,MaxDiffNormalized]
+funcoesGanho = [funcaoGanhon,funcaoGanhoe,funcaoGanho_]
+percent = 0.7
+
+print( testaImpurezasEGanhos(
+    matriz,
+    funcoesImpureza,
+    funcoesGanho,
+    percent) 
+)
