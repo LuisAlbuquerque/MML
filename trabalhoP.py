@@ -307,6 +307,35 @@ def entropia(x):
 #        return -reduce(lambda a,b: P(a[1],x)*log(P(a[1],x),2) + P(b[1],x)*log(P(b[1],x),2),x) * (1/log(len(x),2))
 #    except:
 #        return 0
+
+
+
+#MaxDiff como definida inicialmente
+#i.e, MaxDiff without changes no relatório
+
+
+#MaxDiff with threshold
+
+
+#MaxDiff normalizado
+
+def MaxDiffNormalized(x):
+    N = len(x)
+    try:
+        return ( max(   list(map(  lambda l:  P(l[1],x) - (1 - P(l[1],x))  ,x)   )  / N
+    except:
+        return 0
+
+
+
+
+
+#NOTA adicional: provavelmente vamos ter de criar uma função auxilixar para lidar
+#com o cálculo de impureza a 2 niveis para lidar com os métodos acima que
+#não foram definidos
+
+
+
 #--------------------------------
 
 
