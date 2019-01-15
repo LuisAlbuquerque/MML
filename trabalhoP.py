@@ -555,7 +555,7 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
 
 # ----- funcoes de ganho -----
 
-def ganhon(impureza,antes,depois,nramos,n=1):
+def ganhon(impureza,antes,depois,nramos,n):
     return (impureza(antes) - impureza(depois))\
                     / (nramos**n)
 
