@@ -597,8 +597,11 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
 #função que calcula o ganho dado uma funcao de impureza, uma de ganho,
 #uma matriz e um atributo
 def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
-    impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
-    Map = separaMatrizPorNomeAtributo(matriz,atributo)
+    print('KL' + str(matriz[0]))
+    mat = matriz
+    impurezaMatriz = impurezaAUX(mat,funcaoImpureza)
+    Map = separaMatrizPorNomeAtributo(mat,atributo)
+    print (mat == matriz)
     print('MMM' + str(atributo) + str(matriz[0][0])  + str(Map[ list(Map.keys())[0] ][0]))
     nRamos = len(Map.keys())
     impurezaAtributo = calcImpurezaAtributo(Map,funcaoImpureza,len(matriz))
@@ -634,6 +637,7 @@ def ganho(antes,depois,nramos,T):
 # funcoes de ganho para serem chamadas
 
 def funcaoGanhon(f,matriz,atributo):
+    print('ff' + str(matriz[0]))
     return ganhoGenericoFunc(f,matriz,atributo,ganhon,1)
 
 def funcaoGanhoe(f,matriz,atributo):
@@ -686,9 +690,11 @@ def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
 
     #falha a calcular isto
 
-
-    
     print(funcaoGanho(funcaoImpureza,matriz,atributoMaxGanho))
+
+
+
+
     for atributo in atributos:
         ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributo)
         if(ganhoAtributo>maxGanho):
@@ -728,6 +734,8 @@ def prunningDeArvore(matriz):
 #portanto temos de ter cuidado em como juntamos os resultados todos
 
 def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
+
+    print('MA' + str(matriz[0]))
 
     if( (not atributos) or (prunningDeArvore(matriz)) ):
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
