@@ -105,6 +105,8 @@ def retiraColunaDeMatrizPorColuna(matriz,coluna):
     return resultado
 
 
+
+
 # Calcula todas as possiblidades de valores
 # para uma determinada coluna
 
@@ -739,6 +741,8 @@ def criaDictAPartirDeEntrada(entrada,atributos):
 #nota: retorna um mapa entre as linhas da matriz e a sua previsão
 # de tal modo que previsão[i] é a previsão correspondente a matriz[i]
 
+#nota que não preve a primeira linha(porque são os nomes)
+
 def preveDadaArvoreParaMatriz(arvore, matriz):
     arvoreProcesada = criaArvoreDeDecisão(arvore)
 
@@ -746,8 +750,10 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 
     atributos = retiraColunaDeMatrizPorColuna(matriz,RESULTADO)
 
-    for linha in len(atributos):
-        dictMatriz = criaDictAPartirDeEntrada(atributos[linha])
+    atributosSemHeader = atributos[HEADER:]
+
+    for linha in len(atributosSemHeader):
+        dictMatriz = criaDictAPartirDeEntrada(atributos[linha], atributos[HEADER])
         
         for key in arvoreProcesada:
             if(equalsTreeKeyAndValue(key, dictMatriz)):
@@ -756,6 +762,38 @@ def preveDadaArvoreParaMatriz(arvore, matriz):
 
     return previsao
 
+
+#dada uma previsão e os valores correspondentes reais
+# calcula qual a qualidade de dita previsão
+
+#neste caso estamos a calcular a qualidade como sendo
+# o nº de casos em que a previsão corresponde ao valor real
+# a dividir pelo nº total de registos
+
+def calculaQualidadePrevisao(previsao,real):
+    sum = len(real)
+    positivos = 0
+    for linha in len(previsao):
+        if(previsao[linha] == real[linha]): positivos +=1
+    return positivos/sum
+
+
+#dada uma matriz calcula a sua previsão e os valores reais correspondentes
+#e retorna a qualidade da previsão feita
+
+#nota: o motodo é extremamente ineficiente neste momento
+#por falta de identificador de matriz
+#infelizmente se adicionarmos um identificador neste momento
+#temos de reescrever várias das funções criadas
+#se fizermos isso, temos de ter em consideração a nova coluna
+
+#Nota 2: assume que a árvore ainda não foi alterada para ter previsoes associadas ás suas chaves
+#e que a matriz que lhe é passada ainda tem a classe associada
+
+def caculaQualidadePrevisaoMatriz(arvore,matriz):
+    previsao = preveDadaArvoreParaMatriz(arvore,matriz)
+    real = getColumnFromMatrix(RESULTADO,matriz)[HEADER:]
+    return calculaQualidadePrevisao(previsao,real)
 
 
 #dada uma árvore e dados (de treino e teste)
