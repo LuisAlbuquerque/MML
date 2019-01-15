@@ -947,7 +947,7 @@ def getPrevisãoDadaMatriz(matriz):
         if(valor>max): 
             max = valor
             maxColuna = coluna
-    return maxColuna
+    return classes[maxColuna][0]
 
 
 
@@ -1052,7 +1052,7 @@ def calculaQualidadePrevisao(previsao,real):
     sum = len(previsao)
     positivos = 0
     for linha in range(len(previsao)):
-        if((int(previsao[linha]) + 4) == int(real[linha]) ): 
+        if((int(previsao[linha])) == int(real[linha]) ): 
             positivos +=1
     return positivos/sum
 
