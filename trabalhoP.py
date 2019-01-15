@@ -561,18 +561,22 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
 
     #print( 'adCH' + str(tuplo) + str(isinstance(mapaMatrizes,dict)) + str(mapaMatrizes[0]))
+    #print('KEY' + str(tuplo))
 
     resultado = {}
     #caso geral: mapaMatrizes é um mapa de matrizes
     if(isinstance(mapaMatrizes,dict)):
         #print('MapCas')
+        print("WAT" + str(mapaMatrizes.keys()))
         for key in mapaMatrizes.keys():
+            print('beforeGen' + str(key) + 'test' + str(makeKeyRight(key)))
             newKey = key + tuplo
-            #print('keyGen' + str(newKey))
+            print('keyGen' + str(newKey))
             resultado[newKey] = mapaMatrizes[key]
     #caso de paragem: mapaMatrizes é uma matriz
     else:
         #print('regularCas')
+        print(str(tuplo))
         resultado[tuplo] = mapaMatrizes
     
     #print('adCHRes' + str(resultado[tuplo][0]))
@@ -727,14 +731,16 @@ def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     #print('attrMelCalc' + str(atributos))
 
 
-    for atributo in atributos:
-        ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributo)
+    for atributo in range(len(atributos)):
+        ganhoAtributo = funcaoGanho(funcaoImpureza,matriz,atributos[atributo])
         if(ganhoAtributo>maxGanho):
             maxGanho = ganhoAtributo
-            atributoMaxGanho = atributo
+            atributoMaxGanho = atributos[atributo]
         
     matrizSeparada = separaMatrizPorNomeAtributo(matriz,atributoMaxGanho)
-    
+
+    print('chave' + str(atributoMaxGanho))
+
     return atributoMaxGanho, matrizSeparada
 
 
@@ -839,9 +845,13 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
         #caso recursivo: atributos ainda existem
         atributo,divisao = calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho)
         arvore = {}
+
+        #print('attr1' + str(novosAtributos) + str(atributo))
+
         novosAtributos = atributos
-        #print('attr' + str(novosAtributos) + str(atributo))
         novosAtributos.remove(atributo)
+        
+        print('attr2' + str(novosAtributos) + str(atributo))
         #isto abaixo precisa de alguma explicação:
         #isto é uma função recursiva
         #o que estamos a fazer é em cada passo escolhemos um atributo,
