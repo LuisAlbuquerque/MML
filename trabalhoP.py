@@ -580,7 +580,7 @@ def ganhoGenerico(funcaoImpureza,matriz,atributo,T):
 
 #função que calcula o ganho dado uma funcao de impureza, uma de ganho,
 #uma matriz e um atributo
-def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T):
+def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T=1):
     impurezaMatriz = impurezaAUX(matriz,funcaoImpureza)
     Map = separaMatrizPorNomeAtributo(matriz,atributo)
     nRamos = list(len(Map.keys()))
@@ -590,13 +590,16 @@ def ganhoGenericoFunc(funcaoImpureza,matriz,atributo,funcaoGanho,T):
     )
     return funcaoGanho(impurezaMatriz,impurezaAtributo,nRamos,T)
 
+
+#função genérica de ganho
+
 def ganhon(antes,depois,nramos,T):
     return (antes - depois) / (nramos**T)
 
 # a penalizacao dos ramos e igual tanto se haja 
 # poucos ou muitos ramos
 def ganhoe(antes,depois,nramos,T):
-    return (antes - depois) / (nramos**2)
+    return ganhon(antes,depois,nramos,2)
 
 # penaliza mais quantos mais ramos houverem
 def ganho(antes,depois,nramos,T):
@@ -617,13 +620,13 @@ def ganho(antes,depois,nramos,T):
 # funcoes de ganho para serem chamadas
 
 def funcaoGanhon(f,matriz,atributo):
-    return funcaoGanho(f,matriz,atributo,ganhon)
+    return ganhoGenericoFunc(f,matriz,atributo,ganhon,1)
 
 def funcaoGanhoe(f,matriz,atributo):
-    return funcaoGanho(f,matriz,atributo,ganhoe)
+    return ganhoGenericoFunc(f,matriz,atributo,ganhoe)
 
 def funcaoGanho_(f,matriz,atributo):
-    return funcaoGanho(f,matriz,atributo,ganho)
+    return ganhoGenericoFunc(f,matriz,atributo,ganho)
 
 
 
