@@ -761,7 +761,8 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
 
 def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanho):
     treino,teste = split(matriz,percentagem)
-    arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,funcaoImpureza,funcaoGanho)
+    atributos = matriz[HEADER][:RESULTADO]
+    arvore = calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho)
     return arvore,treino,teste
 
 
@@ -917,10 +918,24 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
     return calculaQualidadePrevisaoMatriz(arvore,treino),calculaQualidadePrevisaoMatriz(arvore,teste)
 
 
+#dada uma matriz de input, listas de funcoes de impureza e ganho e uma percentagem(0.7,0.86,...)
+# calcula a árvore de derivação e retorna a sua qualidade
 
-
-
-
+def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent):
+    resultados = {}
+    for funcImp in funcoesImpureza:
+        for funcGan in funcoesGanho:
+            arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
+                matriz,percent,funcaoImpureza,funcaoGanho
+            )
+            qTreino,qTeste=calculaQualidadeArvoreDecisao(arvore,treino,teste)
+            resultados.append((qTreino,qTeste)) 
+    return resultados
+    
+    
+    
+    
+    
 
 
 
@@ -964,6 +979,14 @@ arvore[1] = [(0,a[0])]
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
 
+#print( calculaArvoreDecisaoParteMatriz(matriz,atributos,funcaoImpureza,funcaoGanho)  )
+#print( calculaQualidadeArvoreDecisao(arvore,treino,teste) )
 
 
+#inpurezas atuais
+#gini_index,missclassification,entropia,MaxDiffNormalized
 
+#ganhos atuais
+#funcaoGanhon,funcaoGanhoe,funcaoGanho_
+
+#print( testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent) )
