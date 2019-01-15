@@ -328,11 +328,18 @@ def MaxDiffNormalized(x):
 
 
 
+#generalized gini index
+#proposto no ref1
+
+def generalized_gini_index(x):
+    N = len(x)
+    try:
+        return (N-reduce(lambda a,b: (P(a[1],x)**2) + (P(b[1],x)**2), x) ) / N
+    except:
+        return 0
 
 
-#NOTA adicional: provavelmente vamos ter de criar uma função auxilixar para lidar
-#com o cálculo de impureza a 2 niveis para lidar com os métodos acima que
-#não foram definidos
+
 
 
 
