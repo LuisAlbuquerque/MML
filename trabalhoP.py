@@ -110,7 +110,7 @@ if(TIPO):
 # retira todos os valores de uma coluna de uma matriz
 
 def getColumnFromMatrix(coluna,matriz):
-    return list(map(lambda x: x[coluna,matriz]))
+    return list(map(lambda x: x[coluna],matriz))
 
 
 #dada uma matriz retira uma certa coluna e devolve a nova matriz
