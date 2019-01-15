@@ -376,7 +376,7 @@ def generalized_gini_index(x):
 #dada uma lista de pares faz map de cada elemento
 # da função fun
 
-def inpureza_all(lista, fun):
+def impureza_all(lista, fun):
     return list(map(lambda x: fun(x),lista))
 
 
@@ -541,7 +541,37 @@ def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
         
     return resultado
 
+# ----- funcoes de ganho -----
 
+def ganhon(impureza,antes,depois,nramos,n):
+    return (impureza(antes) - impureza(depois))\
+                    / (nramos**n)
+
+# a penalizacao dos ramos e igual tanto se haja 
+# poucos ou muitos ramos
+def ganhoe(impureza,antes,depois,nramos,n):
+    return (impureza(antes) - impureza(depois))\
+                    / (2**nramos)
+
+# penaliza mais quantos mais ramos houverem
+def ganho(impureza,antes,depois,nramos):
+    return ganhon(impureza,antes,depois,nramos,1)
+
+def impurezaAUX(matriz, funcaoImpureza):
+    return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
+
+def ganhoAUX(matriz,funcaoImpureza):
+    return len(matriz)*
+
+def funcaoGanho(f,matriz,atributo):
+    antes = impurezaAUX(matriz,f)
+    Map = separaMatrizPorNomeAtributo(matriz,atributo)
+    nramos = list(len(Map.keys()))
+    depois = reduce(lambda x,y: ganhoAUX(Map(x),f) + ganhoAUX(Map(y),f), list(Map.keys())
+    return ganho(f,antes,depois,nramos) 
+
+
+# ----------------------------
 
 #Dada a matriz a dividir, os atributos que falta dividir por
 #e as funções de impureza e de ganho a usar, 
@@ -862,6 +892,7 @@ arvore[1] = [(0,a[0])]
 
 #print(getColumnUniqueFromMatrix(2,data))
 #print(getColumnUniqueFromMatrixDebug(2,data))
+
 
 
 
