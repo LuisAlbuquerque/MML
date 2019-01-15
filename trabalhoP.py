@@ -542,16 +542,24 @@ def separaMatrizPorNomeAtributo(matriz,atributo):
 #(e acho que para nenhuma linguagem que me lembre por agora)
 
 def adicionaChaveTuploAMapaMatrizes(tuplo,mapaMatrizes):
+
+    #print( 'adCH' + str(tuplo) + str(isinstance(mapaMatrizes,dict)) + str(mapaMatrizes[0]))
+
     resultado = {}
     #caso geral: mapaMatrizes é um mapa de matrizes
     if(isinstance(mapaMatrizes,dict)):
+        #print('MapCas')
         for key in mapaMatrizes.keys():
             newKey = key + tuplo
+            #print('keyGen' + str(newKey))
             resultado[newKey] = mapaMatrizes[key]
     #caso de paragem: mapaMatrizes é uma matriz
     else:
+        #print('regularCas')
         resultado[tuplo] = mapaMatrizes
-        
+    
+    #print('adCHRes' + str(resultado[tuplo][0]))
+    print(resultado.keys())
     return resultado
 
 
@@ -696,15 +704,10 @@ def funcaoGanho_(f,matriz,atributo):
 
 def calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho):
     maxGanho = 0
-    atributoMaxGanho = matriz[0][0]
+    atributoMaxGanho = atributos[0]
     #print('----------------------------' + str(matriz[0]) + str(atributos))
 
-
-    #falha a calcular isto
-
-    print(funcaoGanho(funcaoImpureza,matriz,atributoMaxGanho))
-
-
+    #print('attrMelCalc' + str(atributos))
 
 
     for atributo in atributos:
@@ -731,6 +734,22 @@ def prunningDeArvore(matriz):
     return False
 
 
+#função auxiliar que faz "flatten" de um mapa
+
+def flatten_dict(d):
+    def expand(key, value):
+        if isinstance(value, dict):
+            #print('val' + str(value))
+            return [ (key + k, v) for k, v in flatten_dict(value).items() ]
+        else:
+            return [ (key, value) ]
+
+    items = [ item for k, v in d.items() for item in expand(k, v) ]
+
+    return dict(items)
+
+
+
     
 #função que dada uma matriz, seus atributos e 2 funções(impureza e ganho) 
 #cria a árvore de decisão revursivamente
@@ -747,17 +766,24 @@ def prunningDeArvore(matriz):
 
 def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanho):
 
-    #print('MA' + str(matriz[0]))
+    #print('MA' + str(atributos))
 
     if( (not atributos) or (prunningDeArvore(matriz)) ):
+        #print('bottonCas')
+
         #Caso paragem: atributos == [] (i.e., não temos mais divisões possiveis)
         # ou o nº de elementos de uma classe supera uma certa percentagem(prunning)
         return matriz
     else:
+
+        #print('recCas' + str(atributos))
+
         #caso recursivo: atributos ainda existem
         atributo,divisao = calculaAtributomelhor(matriz,atributos,funcaoImpureza,funcaoGanho)
         arvore = {}
-        novosAtributos = atributos.remove(atributo)
+        novosAtributos = atributos
+        #print('attr' + str(novosAtributos) + str(atributo))
+        novosAtributos.remove(atributo)
         #isto abaixo precisa de alguma explicação:
         #isto é uma função recursiva
         #o que estamos a fazer é em cada passo escolhemos um atributo,
@@ -782,6 +808,7 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
 
 
         for key in divisao.keys():
+            #print('aaaa' + str(key))
             arvore[key] = adicionaChaveTuploAMapaMatrizes(
                             key,
                             calculaArvoreDecisaoDadaMatrizRec(
@@ -789,10 +816,13 @@ def calculaArvoreDecisaoDadaMatrizRec(matriz,atributos,funcaoImpureza,funcaoGanh
                             ) 
                         )
 
+        #print(arvore.keys())
+        #print(arvore[list(arvore.keys())[2]])
+
         #nota: no final termos um mapa onde
         #a sua chave terá a forma (attr1,valattr1,attr2,valattr2,....)
         #que corresponderá às regras de criação de dita separação
-        return arvore
+        return flatten_dict(arvore)
 
 
 
@@ -810,12 +840,30 @@ def calculaArvoreDecisaoParteMatriz(matriz,percentagem,funcaoImpureza,funcaoGanh
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #dada uma matriz retorna o valor de classe com mais instâncias
 
 def getPrevisãoDadaMatriz(matriz):
     classes = contagemDeClasse(matriz)
     max = 0
-    maxColuna = clases[list(classes.keys())[0]]
+    maxColuna = classes[list(classes.keys())[0]]
     for key in classes.keys():
         valor = classes[key]
         if(valor>max): 
