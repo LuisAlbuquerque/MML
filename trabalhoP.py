@@ -561,7 +561,7 @@ def impurezaAUX(matriz, funcaoImpureza):
     return impureza_all( contagemDeClasse( matriz ), funcaoImpureza )
 
 def ganhoAUX(matriz,funcaoImpureza):
-    return len(matriz)*
+    return len(matriz)*impurezaAUX(matriz,funcaoImpureza)
 
 def funcaoGanho(f,matriz,atributo):
     antes = impurezaAUX(matriz,f)
