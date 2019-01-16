@@ -1111,17 +1111,27 @@ def calculaQualidadeArvoreDecisao(arvore,treino,teste):
 #dada uma matriz de input, listas de funcoes de impureza e ganho e uma percentagem(0.7,0.86,...)
 # calcula a árvore de derivação e retorna a sua qualidade
 
-def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent):
+def testaImpurezasEGanhos(matriz,funcoesImpureza,funcoesGanho,percent,vezes):
     resultados = []
     for funcImp in funcoesImpureza:
         for funcGan in funcoesGanho:
-            arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
-                matriz,percent,funcImp,funcGan
-            )
-            #print( isinstance(arvore,dict) )
-            #print( arvore.keys())
-            qTreino,qTeste=calculaQualidadeArvoreDecisao(arvore,treino,teste)
-            resultados.append((qTreino,qTeste)) 
+            tre = float(0.0)
+            tes = float(0.0)
+
+            for x in range(vezes):
+                arvore,treino,teste = calculaArvoreDecisaoParteMatriz(
+                    matriz,percent,funcImp,funcGan
+                )
+
+                qTreino,qTeste=calculaQualidadeArvoreDecisao(arvore,treino,teste)
+
+                tre += qTreino
+                tes += qTeste
+
+                # print(qTreino)
+
+            resultados.append( (tre/vezes ,tes/vezes) ) 
+
     return resultados
     
     
@@ -1184,11 +1194,16 @@ arvore[1] = [(0,a[0])]
 matriz = data
 funcoesImpureza = [gini_index,missclassification,entropia,MaxDiffNormalized]
 funcoesGanho = [funcaoGanhon,funcaoGanhoe,funcaoGanho_]
-percent = 0.7
+percent = 0.8
+
+
+# testeMulti(5)
 
 print( testaImpurezasEGanhos(
     matriz,
     funcoesImpureza,
     funcoesGanho,
-    percent) 
+    percent,10) 
 )
+
+
